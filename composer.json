@@ -1,0 +1,43 @@
+{
+  "name": "kuandd/graphql-resolve",
+  "description": "Split the data relationship into classes depends on webonyx/graphql-php",
+  "minimum-stability": "stable",
+  "type": "library",
+  "license": "MIT",
+  "keywords":          [
+    "graphql",
+    "API"
+  ],
+  "authors": [
+    {
+      "name": "pikaqiu",
+      "email": "pikaqiu@kdd.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "ext-swoole": ">4.0",
+    "webonyx/graphql-php": "^0.13",
+    "webmozart/assert": "^1.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.2",
+    "phpstan/phpstan": "^0.11.4",
+    "eaglewu/swoole-ide-helper": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "GraphQLResolve\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GraphQLResolve\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit tests",
+    "static-analysis": "phpstan analyse --ansi --memory-limit 256M",
+    "check-all": "composer static-analysis && composer test"
+  }
+}
