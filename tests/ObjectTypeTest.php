@@ -5,8 +5,7 @@
 
 namespace GraphQLResolve\Tests;
 
-use GraphQL\Type\Definition\Type;
-use GraphQLResolve\AbstractObjectType;
+use GraphQLResolve\Tests\Sim\ObjectType;
 use PHPUnit\Framework\TestCase;
 
 class ObjectTypeTest extends TestCase
@@ -18,31 +17,10 @@ class ObjectTypeTest extends TestCase
      */
     public function testCreateInstance ()
     {
-        $objectType = TestObjectType::getObject();
-        $this->assertEquals($objectType->name, 'TestObjectType');
+        $objectType = ObjectType::getObject();
+        $this->assertEquals($objectType->name, 'ObjectType');
         $this->assertArrayHasKey('id', $objectType->getFields());
         $this->assertArrayHasKey('data', $objectType->getFields());
         $this->assertArrayHasKey('listData', $objectType->getFields());
-    }
-}
-
-class TestObjectType extends AbstractObjectType
-{
-    public function fields()
-    {
-        return  function () {
-            return  [
-                'id'    => Type::nonNull(Type::id()),
-                [
-                    'name'  => 'data',
-                    'type'  => Type::nonNull(Type::string()),
-                ],
-                [
-                    'name'          => 'listData',
-                    'type'          => Type::listOf(Type::float()),
-                    'description'   => '列表数据',
-                ],
-            ];
-        };
     }
 }
