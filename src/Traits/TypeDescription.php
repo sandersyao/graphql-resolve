@@ -2,8 +2,12 @@
 namespace GraphQLResolve\Traits;
 
 use \Closure;
+
 /**
  * 获取类型描述
+ *
+ * Trait TypeDescription
+ * @package GraphQLResolve\Traits
  */
 trait TypeDescription
 {

@@ -1,7 +1,6 @@
 <?php
 namespace GraphQLResolve\Traits;
 
-use \Exception;
 use \LogicException;
 
 /**
@@ -13,7 +12,6 @@ trait Singleton
      * 获取实例
      *
      * @return mixed
-     * @throws Exception
      */
     public static function getInstance(...$args)
     {

@@ -6,7 +6,9 @@
 namespace GraphQLResolve\Tests;
 
 
+use GraphQL\Type\Definition\ObjectType;
 use GraphQLResolve\Builders\AbstractBuilder;
+use GraphQLResolve\Builders\ObjectTypeBuilder;
 use PHPUnit\Framework\TestCase;
 
 class BuilderTest extends TestCase
@@ -20,7 +22,7 @@ class BuilderTest extends TestCase
     {
         $callbackA  = function () {};
         $callbackB  = function () {};
-        $builder    = A::getInstance()
+        $builder    = TestBuilder::getInstance()
             ->fields($callbackA)
             ->resolve($callbackB);
         $object     = $builder->fetch();
@@ -32,9 +34,33 @@ class BuilderTest extends TestCase
             'resolve'   => $callbackB,
         ]);
     }
+
+    /**
+     * 测试ObjectTypeBuilder
+     *
+     * @covers \GraphQLResolve\Builders\AbstractBuilder::fetch
+     */
+    public function testObjectTypeBuilder()
+    {
+        $callback   = function(){};
+        $fields     = [];
+        $options    = ObjectTypeBuilder::getInstance()
+            ->name('typeName')
+            ->description('typeDescription')
+            ->fields($fields)
+            ->resolve($callback)
+            ->fetch();
+
+        $this->assertEquals($options, new ObjectType([
+            'name'          => 'typeName',
+            'description'   => 'typeDescription',
+            'fields'        => $fields,
+            'resolve'       => $callback,
+        ]));
+    }
 }
 
-class A extends AbstractBuilder
+class TestBuilder extends AbstractBuilder
 {
     public function getItems(): array
     {

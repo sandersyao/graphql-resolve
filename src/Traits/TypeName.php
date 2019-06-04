@@ -6,6 +6,9 @@ use \Closure;
 
 /**
  * 类型名称
+ *
+ * Trait TypeName
+ * @package GraphQLResolve\Traits
  */
 trait TypeName
 {
