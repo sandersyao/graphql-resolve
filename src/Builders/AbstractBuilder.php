@@ -60,6 +60,11 @@ abstract class AbstractBuilder
         return $this->_options;
     }
 
+    /**
+     * 构建对象
+     *
+     * @return mixed
+     */
     public function build ()
     {
         Validator::assertArray($this->getItems(), $this->_options);
@@ -73,6 +78,7 @@ abstract class AbstractBuilder
      * @param   string $method
      * @param   array  $args
      * @return  mixed
+     * @throws  BadMethodCallException
      */
     public function __call (string $method, array $args)
     {
