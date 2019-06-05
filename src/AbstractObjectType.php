@@ -66,9 +66,9 @@ abstract class AbstractObjectType
             ->description($this->description())
             ->fields($this->fields());
 
-        if (is_callable([$this, 'interfaces'])) {
+        if (is_callable([$this, 'implements'])) {
 
-            $builder->interfaces($this->interfaces());
+            $builder->interfaces($this->implements());
         }
 
         return  $builder->build();

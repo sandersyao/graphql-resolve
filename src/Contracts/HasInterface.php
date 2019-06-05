@@ -3,5 +3,10 @@ namespace GraphQLResolve\Contracts;
 
 interface HasInterface {
 
-    public function getInterfaces (): array;
+    /**
+     * 实现接口
+     *
+     * @return array
+     */
+    public function implements(): array;
 }
