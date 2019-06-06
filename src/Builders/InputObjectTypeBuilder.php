@@ -1,5 +1,6 @@
 <?php
-namespace GraphqlResolve\Builders;
+
+namespace GraphQLResolve\Builders;
 
 use GraphQL\Type\Definition\InputObjectType;
 
