@@ -13,6 +13,7 @@ class Query extends AbstractObjectType
         return function () {
 
             return [
+                Hello::fetchOptions(),
                 Orders::fetchOptions(),
             ];
         };
