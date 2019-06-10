@@ -1,13 +1,16 @@
 <?php
-/**
- * TODO complete ObjectType test case
- */
 
 namespace GraphQLResolve\Tests;
 
 use GraphQLResolve\Tests\Sim\ObjectType;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * ObjectType测试用例
+ *
+ * Class ObjectTypeTest
+ * @package GraphQLResolve\Tests
+ */
 class ObjectTypeTest extends TestCase
 {
     /**
