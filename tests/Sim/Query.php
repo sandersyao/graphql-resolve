@@ -3,7 +3,6 @@
 
 namespace GraphQLResolve\Tests\Sim;
 
-
 use GraphQLResolve\AbstractObjectType;
 
 class Query extends AbstractObjectType
@@ -13,7 +12,6 @@ class Query extends AbstractObjectType
         return function () {
 
             return [
-                Hello::fetchOptions(),
                 Orders::fetchOptions(),
             ];
         };
