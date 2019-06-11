@@ -4,117 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee8e4563fe643da0fa858faefea1b0b3",
+  "content-hash": "1fb9b7d757bb16bd86ec6dda3e03b533",
     "packages": [
-        {
-            "name": "symfony/polyfill-ctype",
-            "version": "v1.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "82ebae02209c21113908c229e9883c419720738a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
-                "reference": "82ebae02209c21113908c229e9883c419720738a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-ctype": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.11-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                },
-                {
-                    "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
-                }
-            ],
-            "description": "Symfony polyfill for ctype functions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "ctype",
-                "polyfill",
-                "portable"
-            ],
-            "time": "2019-02-06T07:57:58+00:00"
-        },
-        {
-            "name": "webmozart/assert",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
-                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
-                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.3 || ^7.0",
-                "symfony/polyfill-ctype": "^1.8"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.6",
-                "sebastian/version": "^1.0.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webmozart\\Assert\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bernhard Schussek",
-                    "email": "bschussek@gmail.com"
-                }
-            ],
-            "description": "Assertions to validate method input/output with nice error messages.",
-            "keywords": [
-                "assert",
-                "check",
-                "validate"
-            ],
-            "time": "2018-12-25T11:19:39+00:00"
-        },
         {
             "name": "webonyx/graphql-php",
             "version": "v0.13.4",
@@ -268,46 +159,6 @@
                 "instantiate"
             ],
             "time": "2019-03-17T17:37:11+00:00"
-        },
-        {
-            "name": "eaglewu/swoole-ide-helper",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wudi/swoole-ide-helper.git",
-                "reference": "ac02b69535e28e3398df151b7e8e9a61370f752e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wudi/swoole-ide-helper/zipball/ac02b69535e28e3398df151b7e8e9a61370f752e",
-                "reference": "ac02b69535e28e3398df151b7e8e9a61370f752e",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "eagle",
-                    "email": "eaglewudi@gmail.com",
-                    "role": "lead"
-                }
-            ],
-            "description": "Swoole IDE Helper, to improve auto-completion",
-            "keywords": [
-                "autocomplete",
-                "codeintel",
-                "helper",
-                "ide",
-                "netbeans",
-                "phpdoc",
-                "phpstorm",
-                "sublime",
-                "swoole"
-            ],
-            "time": "2019-05-24T09:02:25+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -1351,16 +1202,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "0.3.4",
+          "version": "0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "ab518a5fc8f1d90f58bd2c5552ba915e2c477b66"
+              "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/ab518a5fc8f1d90f58bd2c5552ba915e2c477b66",
-                "reference": "ab518a5fc8f1d90f58bd2c5552ba915e2c477b66",
+              "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/8c4ef2aefd9788238897b678a985e1d5c8df6db4",
+              "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4",
                 "shasum": ""
             },
             "require": {
@@ -1394,7 +1245,7 @@
                 "MIT"
             ],
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2019-05-28T11:40:00+00:00"
+          "time": "2019-06-07T19:13:52+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -1626,16 +1477,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "2.1.1",
+          "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059"
+              "reference": "1038454804406b0b5f5f520358e78c1c2f71501e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b389aebe1b8b0578430bda0c7c95a829608e059",
-                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059",
+              "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/1038454804406b0b5f5f520358e78c1c2f71501e",
+              "reference": "1038454804406b0b5f5f520358e78c1c2f71501e",
                 "shasum": ""
             },
             "require": {
@@ -1671,7 +1522,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2019-02-20T10:12:59+00:00"
+          "time": "2019-06-07T04:22:29+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -2421,16 +2272,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.3.0",
+          "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "707b619d2c3bedf0224d56f95f77dabc60102305"
+              "reference": "d50bbeeb0e17e6dd4124ea391eff235e932cbf64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/707b619d2c3bedf0224d56f95f77dabc60102305",
-                "reference": "707b619d2c3bedf0224d56f95f77dabc60102305",
+              "url": "https://api.github.com/repos/symfony/console/zipball/d50bbeeb0e17e6dd4124ea391eff235e932cbf64",
+              "reference": "d50bbeeb0e17e6dd4124ea391eff235e932cbf64",
                 "shasum": ""
             },
             "require": {
@@ -2492,11 +2343,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-27T08:16:38+00:00"
+          "time": "2019-06-05T13:25:51+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v4.3.0",
+          "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2544,6 +2395,64 @@
             "time": "2019-05-26T20:47:49+00:00"
         },
         {
+          "name": "symfony/polyfill-ctype",
+          "version": "v1.11.0",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-ctype.git",
+            "reference": "82ebae02209c21113908c229e9883c419720738a"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+            "reference": "82ebae02209c21113908c229e9883c419720738a",
+            "shasum": ""
+          },
+          "require": {
+            "php": ">=5.3.3"
+          },
+          "suggest": {
+            "ext-ctype": "For best performance"
+          },
+          "type": "library",
+          "extra": {
+            "branch-alias": {
+              "dev-master": "1.11-dev"
+            }
+          },
+          "autoload": {
+            "psr-4": {
+              "Symfony\\Polyfill\\Ctype\\": ""
+            },
+            "files": [
+              "bootstrap.php"
+            ]
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "Symfony Community",
+              "homepage": "https://symfony.com/contributors"
+            },
+            {
+              "name": "Gert de Pagter",
+              "email": "BackEndTea@gmail.com"
+            }
+          ],
+          "description": "Symfony polyfill for ctype functions",
+          "homepage": "https://symfony.com",
+          "keywords": [
+            "compatibility",
+            "ctype",
+            "polyfill",
+            "portable"
+          ],
+          "time": "2019-02-06T07:57:58+00:00"
+        },
+      {
             "name": "symfony/polyfill-mbstring",
             "version": "v1.11.0",
             "source": {
@@ -2757,18 +2666,66 @@
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "time": "2019-04-04T09:56:43+00:00"
+        },
+      {
+        "name": "webmozart/assert",
+        "version": "1.4.0",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/webmozart/assert.git",
+          "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
+          "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
+          "shasum": ""
+        },
+        "require": {
+          "php": "^5.3.3 || ^7.0",
+          "symfony/polyfill-ctype": "^1.8"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "^4.6",
+          "sebastian/version": "^1.0.1"
+        },
+        "type": "library",
+        "extra": {
+          "branch-alias": {
+            "dev-master": "1.3-dev"
+          }
+        },
+        "autoload": {
+          "psr-4": {
+            "Webmozart\\Assert\\": "src/"
+          }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "authors": [
+          {
+            "name": "Bernhard Schussek",
+            "email": "bschussek@gmail.com"
+          }
+        ],
+        "description": "Assertions to validate method input/output with nice error messages.",
+        "keywords": [
+          "assert",
+          "check",
+          "validate"
+        ],
+        "time": "2018-12-25T11:19:39+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "eaglewu/swoole-ide-helper": 20
-    },
+  "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1",
-        "ext-swoole": ">4.0"
+      "php": ">=7.1"
     },
     "platform-dev": []
 }
