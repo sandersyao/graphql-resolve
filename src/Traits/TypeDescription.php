@@ -1,7 +1,7 @@
 <?php
 namespace GraphQLResolve\Traits;
 
-use \Closure;
+use Closure;
 
 /**
  * 获取类型描述
@@ -32,9 +32,9 @@ trait TypeDescription
     /**
      * 获取字符串值
      *
-     * @param string
-     * @param \Closure
-     * @return string
+     * @param string $attributeName
+     * @param Closure $default
+     * @return mixed
      */
     abstract protected function getDefaultAttribute(string $attributeName, Closure $default);
 }
