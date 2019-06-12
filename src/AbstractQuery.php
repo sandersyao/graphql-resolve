@@ -2,6 +2,7 @@
 
 namespace GraphQLResolve;
 
+use GraphQLResolve\Tools\QueryMap;
 use GraphQLResolve\Traits\Singleton;
 use \Closure;
 
@@ -60,6 +61,8 @@ abstract class AbstractQuery
 
                 $this->options['args'] = $this->args();
             }
+
+            QueryMap::set($this->name(), get_called_class());
         }
 
         return  $this->options;

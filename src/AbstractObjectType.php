@@ -1,6 +1,7 @@
 <?php
 namespace GraphQLResolve;
 
+use GraphQLResolve\Tools\TypeMap;
 use GraphQLResolve\Traits\Singleton;
 use GraphQLResolve\Traits\TypeDescription;
 use GraphQLResolve\Traits\HasDefaultAttribute;
@@ -70,6 +71,8 @@ abstract class AbstractObjectType
 
             $builder->interfaces($this->implements());
         }
+
+        TypeMap::set($this->name(), get_called_class());
 
         return  $builder->build();
     } 
