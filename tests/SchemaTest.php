@@ -6,54 +6,42 @@ namespace GraphQLResolve\Tests;
 
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
-use GraphQLResolve\Tests\Sim\Mutation;
-use GraphQLResolve\Tests\Sim\Order;
-use GraphQLResolve\Tests\Sim\Orders;
-use GraphQLResolve\Tests\Sim\Query;
-use GraphQLResolve\Tools\QueryMap;
-use GraphQLResolve\Tools\TypeMap;
+use GraphQL\Type\SchemaConfig;
+use GraphQLResolve\TypeRegistry;
 use PHPUnit\Framework\TestCase;
 
 class SchemaTest extends TestCase
 {
-    protected $schema;
-
-    public function setUp()
+    /**
+     * @covers \GraphQLResolve\TypeRegistry::load
+     */
+    public function testSchema()
     {
-        parent::setUp();
-        $this->schema = new Schema([
-            'query' => Query::getObject(),
-            'mutation' => Mutation::getObject(),
+        $queryString    = '{
+orders{
+id
+sn
+}
+}';
+        TypeRegistry::load([
+            Query::class,
+            Order::class,
         ]);
-    }
-
-    public function testSchemaCreate()
-    {
-        $query = '{orders{
-    id
-    sn
-    orderStatus
-}}';
-        $rootValue = null;
-        $variableValues = [];
-        $context = [];
-        $operationName = null;
-
+        $config = SchemaConfig::create()
+            ->setQuery(TypeRegistry::get('Query'))
+            ->setTypeLoader(function ($name) {
+                return  TypeRegistry::get($name);
+            });
+        $schema = new Schema($config);
+        $schema->assertValid();
         $result = GraphQL::executeQuery(
-            $this->schema,
-            $query,
-            $rootValue,
-            $context,
-            $variableValues,
-            $operationName
+            $schema,
+            $queryString,
+            null,
+            null,
+            []
         );
-        $data = $result->toArray();
-        $this->assertEquals('NEW', $data['data']['orders'][0]['orderStatus']);
-    }
-
-    public function testClassMap()
-    {
-        $this->assertEquals(Orders::class, QueryMap::get('orders'));
-        $this->assertEquals(Order::class, TypeMap::get('Order'));
+        $data   = $result->toArray();
+        $this->assertEquals(Query::TEST_DATA, $data['data']['orders']);
     }
 }

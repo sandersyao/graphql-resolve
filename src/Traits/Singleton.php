@@ -1,66 +1,49 @@
 <?php
+
+
 namespace GraphQLResolve\Traits;
 
-use \LogicException;
 
-/**
- * 单例
- */
 trait Singleton
 {
     /**
+     * @var
+     */
+    static private $instance;
+
+    /**
      * 获取实例
      *
+     * @param mixed ...$args
      * @return mixed
      */
-    public static function getInstance(...$args)
+    static public function getInstance(...$args)
     {
-        static $mapInstance = [];
-        $className  = get_called_class();
+        if (empty(static::$instance) || get_called_class() != get_class(static::$instance)) {
 
-        if (!isset($mapInstance[$className])) {
-
-            $mapInstance[$className]    = new $className(...$args);
+            static::$instance   = new static(...$args);
         }
 
-        return  $mapInstance[$className];
+        return  static::$instance;
     }
 
     /**
-     * 禁用外部创建实例
+     * 删除
      */
-    protected function __construct()
+    static public function destroy()
     {
-        //禁止外部创建实例
+        static::$instance   = null;
     }
 
-    /**
-     * 禁止序列化
-     *
-     * @throws LogicException
-     */
-    final public function __sleep()
+    private function __construct(...$args)
     {
-        throw new LogicException('cannot serialize object from Singleton instance (class: ' . get_called_class() . ').');
     }
 
-    /**
-     * 禁止通过反序列化创建实例
-     *
-     * @throws LogicException
-     */
-    final public function __wakeup()
+    private function __sleep()
     {
-        throw new LogicException('cannot unserialize object from Singleton instance (class: ' . get_called_class() . ').');
     }
 
-    /**
-     * 禁止克隆实例
-     *
-     * @throws LogicException
-     */
-    final public function __clone()
+    private function __clone()
     {
-        throw new LogicException('cannot clone object from Singleton instance (class: ' . get_called_class() . ')');
     }
 }
