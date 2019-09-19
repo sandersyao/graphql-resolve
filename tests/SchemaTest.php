@@ -22,11 +22,13 @@ class SchemaTest extends TestCase
         parent::setUp();
         TypeRegistry::load([
             Query::class,
+            Mutation::class,
             Order::class,
             UserInput::class,
         ]);
         $config = SchemaConfig::create()
             ->setQuery(TypeRegistry::get('Query'))
+            ->setMutation(TypeRegistry::get('Mutation'))
             ->setTypeLoader(function ($name) {
                 return TypeRegistry::get($name);
             });
@@ -106,11 +108,34 @@ sn
             $queryString,
             null,
             null,
-            ['user'=>['id'=>1]]
+            $variables
         );
         $data = $result->toArray(true);
         $this->assertEquals(array_filter(Query::TEST_DATA, function ($item) use ($variables) {
             return  $variables['user']['id'] == $item['userId'];
         }), $data['data']['orders']);
+    }
+
+    public function testMutation()
+    {
+        $variables      = ['user'=>['id'=>2]];
+        $queryString    = 'mutation Test($user:UserInput!) {
+createOrder (user:$user) {
+id
+userId
+sn
+}
+}';
+        $result = GraphQL::executeQuery(
+            $this->schema,
+            $queryString,
+            null,
+            null,
+            $variables
+        );
+        $data = $result->toArray(true);
+        $this->assertEquals(current(array_filter(Query::TEST_DATA, function ($item) use ($variables) {
+            return  $variables['user']['id'] == $item['userId'];
+        })), $data['data']['createOrder']);
     }
 }
