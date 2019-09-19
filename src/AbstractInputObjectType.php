@@ -4,9 +4,9 @@
 namespace GraphQLResolve;
 
 
-use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\InputObjectType;
 
-abstract class AbstractObjectType extends ObjectType
+abstract class AbstractInputObjectType extends InputObjectType
 {
     /**
      * 获取字段
@@ -21,14 +21,7 @@ abstract class AbstractObjectType extends ObjectType
      */
     public function __construct(array $config = [])
     {
-        $config['fields']       = [$this, 'fields'];
-        $callbackDescription    = [$this, 'description'];
-
-        if (is_callable($callbackDescription)) {
-
-            $config['descriptions'] = $callbackDescription();
-        }
-
+        $config['fields']   = [$this, 'fields'];
         parent::__construct($config);
     }
 }

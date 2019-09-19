@@ -13,13 +13,22 @@ class Query extends AbstractObjectType
     const TEST_DATA = [
         [
             'id'    => 1,
+            'userId'=> 1,
             'sn'    => 'abc',
         ],
         [
             'id'    => 2,
+            'userId'=> 2,
             'sn'    => 'bcd',
         ],
     ];
+
+    const POS_ALL   = 'all';
+
+    public function description()
+    {
+        return  '根查询';
+    }
 
     public function fields()
     {
@@ -29,7 +38,14 @@ class Query extends AbstractObjectType
                 'description'   => '查询测试',
                 'resolve'       => function ($rootValue, $args) {
 
-                    if ('' === $args['pos']) {
+                    if (isset($args['user'])) {
+
+                        return  array_filter(self::TEST_DATA, function ($item) use ($args) {
+                            return  $item['userId'] == $args['user']['id'];
+                        });
+                    }
+
+                    if (self::POS_ALL === $args['pos']) {
 
                         return  self::TEST_DATA;
                     }
@@ -40,8 +56,12 @@ class Query extends AbstractObjectType
                     'pos'   => [
                         'type'          => Type::int(),
                         'description'   => '简单参数测试',
-                        'defaultValue'  => '',
+                        'defaultValue'  => self::POS_ALL,
                     ],
+                    'user'  => [
+                        'type'          => TypeRegistry::get('UserInput'),
+                        'description'   => '输入类型参数测试',
+                    ]
                 ],
             ],
         ]);

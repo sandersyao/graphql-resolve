@@ -9,6 +9,11 @@ use GraphQLResolve\AbstractObjectType;
 
 class Order extends AbstractObjectType
 {
+    public function description()
+    {
+        return  '订单类型';
+    }
+
     public function fields()
     {
         return  [
@@ -19,6 +24,10 @@ class Order extends AbstractObjectType
             'sn'    => [
                 'type'          => Type::nonNull(Type::string()),
                 'description'   => '订单编号',
+            ],
+            'userId'    => [
+                'type'          => Type::nonNull(Type::string()),
+                'description'   => '用户ID',
             ],
         ];
     }

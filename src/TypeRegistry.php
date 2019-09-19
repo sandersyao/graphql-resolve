@@ -5,8 +5,15 @@ namespace GraphQLResolve;
 
 
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
 use GraphQLResolve\Traits\Singleton;
 
+/**
+ * Class TypeRegistry
+ * @package GraphQLResolve
+ *
+ * 注册并管理GraphQL类型（包括输出和输入类型、标量、接口和联合类型）
+ */
 class TypeRegistry
 {
     use Singleton;
@@ -26,10 +33,11 @@ class TypeRegistry
      */
     public function add($type)
     {
-        if (!($type instanceof ObjectType)) {
+        if (!($type instanceof Type)) {
 
             throw new \UnexpectedValueException(
-                'unexpected argument $type, must be an instance of ' . ObjectType::class . '.'
+                'unexpected argument $type, must be an instance of ' .
+                Type::class . ' or its subclass.'
             );
         }
 
@@ -58,7 +66,7 @@ class TypeRegistry
     {
         if (!isset($this->mapType[$name])) {
 
-            throw new \UnexpectedValueException('Name ' . $name . ' not registry');
+            throw new \UnexpectedValueException('Type Name ' . $name . ' not registry');
         }
 
         return  $this->mapType[$name];
