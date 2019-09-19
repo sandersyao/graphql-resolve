@@ -12,17 +12,14 @@ use PHPUnit\Framework\TestCase;
 
 class SchemaTest extends TestCase
 {
+    private $schema;
+
     /**
-     * @covers \GraphQLResolve\TypeRegistry::load
+     * 建立基境
      */
-    public function testSchema()
+    public function setUp()
     {
-        $queryString    = '{
-orders{
-id
-sn
-}
-}';
+        parent::setUp();
         TypeRegistry::load([
             Query::class,
             Order::class,
@@ -32,10 +29,26 @@ sn
             ->setTypeLoader(function ($name) {
                 return  TypeRegistry::get($name);
             });
-        $schema = new Schema($config);
-        $schema->assertValid();
+        $this->schema = new Schema($config);
+        $this->schema->assertValid();
+    }
+
+    /**
+     * 简单查询
+     *
+     * @covers \GraphQLResolve\TypeRegistry::load
+     */
+    public function testSimpleQuery()
+    {
+        $queryString    = '{
+orders{
+id
+sn
+}
+}';
+
         $result = GraphQL::executeQuery(
-            $schema,
+            $this->schema,
             $queryString,
             null,
             null,
@@ -43,5 +56,26 @@ sn
         );
         $data   = $result->toArray();
         $this->assertEquals(Query::TEST_DATA, $data['data']['orders']);
+    }
+
+    public function testArguments()
+    {
+        $position       = 0;
+        $queryString    = '{
+orders (pos:' . $position . ') {
+id
+sn
+}
+}';
+
+        $result = GraphQL::executeQuery(
+            $this->schema,
+            $queryString,
+            null,
+            null,
+            []
+        );
+        $data   = $result->toArray();
+        $this->assertEquals([Query::TEST_DATA[$position]], $data['data']['orders']);
     }
 }

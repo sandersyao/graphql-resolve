@@ -19,7 +19,7 @@ class Order extends AbstractObjectType
             'sn'    => [
                 'type'          => Type::nonNull(Type::string()),
                 'description'   => '订单编号',
-            ]
+            ],
         ];
     }
 }
