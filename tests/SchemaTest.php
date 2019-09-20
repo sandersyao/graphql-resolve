@@ -43,6 +43,9 @@ class SchemaTest extends TestCase
         $this->schema->assertValid();
     }
 
+    /**
+     * 销毁基境
+     */
     public function tearDown()
     {
         TypeRegistry::destroy();
@@ -101,6 +104,9 @@ sn
         $this->assertEquals([Query::TEST_DATA[$position]], $data['data']['orders']);
     }
 
+    /**
+     * 测试输入对象类型
+     */
     public function testInputObject()
     {
         $variables      = ['user'=>['id'=>1]];
@@ -124,6 +130,9 @@ sn
         }), $data['data']['orders']);
     }
 
+    /**
+     * 测试变更
+     */
     public function testMutation()
     {
         $variables      = ['user'=>['id'=>2]];
@@ -147,6 +156,9 @@ sn
         })), $data['data']['createOrder']);
     }
 
+    /**
+     * 测试指令
+     */
     public function testDirective()
     {
         $queryString = '{
