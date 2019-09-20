@@ -55,7 +55,7 @@ class Substr extends AbstractDirective
 
         if (isset($args['length'])) {
 
-            return  substr($value, $offset, $length);
+            return  substr($value, $offset, (int) $args['length']->value);
         }
 
         return  substr($value, $offset);

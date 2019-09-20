@@ -12,6 +12,10 @@ use GraphQLResolve\DirectiveRegistry;
 use GraphQLResolve\TypeRegistry;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class SchemaTest
+ * @package GraphQLResolve\Tests
+ */
 class SchemaTest extends TestCase
 {
     private $schema;
