@@ -3,14 +3,17 @@
 
 namespace GraphQLResolve;
 
-
+/**
+ * Class DirectiveRegistry
+ * @package GraphQLResolve
+ */
 class DirectiveRegistry extends AbstractRegistry
 {
     /**
-     * 获取Key
+     * 获取指令名称
      *
-     * @param $directive
-     * @return string
+     * @param mixed $directive 指令对象
+     * @return string 指令名称
      */
     protected function getKey($directive): string
     {
@@ -28,7 +31,8 @@ class DirectiveRegistry extends AbstractRegistry
     /**
      * 获取全部指令
      *
-     * @return array
+     * @return array[GraphQLResolve\AbstractDirective] 全部指令列表
+     * @api
      */
     static public function getAll()
     {

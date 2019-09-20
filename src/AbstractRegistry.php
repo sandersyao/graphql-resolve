@@ -6,28 +6,34 @@ namespace GraphQLResolve;
 
 use GraphQLResolve\Traits\Singleton;
 
+/**
+ * Class AbstractRegistry
+ * @package GraphQLResolve
+ */
 abstract class AbstractRegistry
 {
     use Singleton;
 
     /**
-     * @var array
+     * @var array 注册数据
      */
     protected $map  = [];
 
     /**
-     * 获取key
+     * 获取键
      *
-     * @param $object
-     * @return string
+     * @param mixed $object 对象
+     * @return string 键
+     * @api
      */
     abstract protected function getKey($object): string;
 
     /**
-     * 新增类型
+     * 新增对象
      *
-     * @param $object
-     * @return AbstractRegistry
+     * @param mixed $object 对象
+     * @return AbstractRegistry 自身对象
+     * @api
      */
     public function add($object)
     {
@@ -49,10 +55,11 @@ abstract class AbstractRegistry
     /**
      * 析出实例
      *
-     * @param $key
-     * @return mixed
+     * @param string $key 键
+     * @return mixed 对象
+     * @api
      */
-    public function resolve($key)
+    public function resolve(string $key)
     {
         if (!isset($this->map[$key])) {
 
@@ -63,25 +70,30 @@ abstract class AbstractRegistry
     }
 
     /**
-     * 加载
+     * 实例化并加载
      *
-     * @param array $listClass
+     * @param array[string] $listClass 类型列表
+     * @return mixed 自身对象
+     * @api
      */
     static public function load(array $listClass)
     {
         array_map(function ($class) {
             self::getInstance()->add(new $class);
         }, $listClass);
+
+        return  self::getInstance();
     }
 
     /**
-     * 获取
+     * 根据键获取对象
      *
-     * @param $name
-     * @return mixed
+     * @param string $key 键
+     * @return mixed 对象
+     * @api
      */
-    static public function get($name)
+    static public function get($key)
     {
-        return  self::getInstance()->resolve($name);
+        return  self::getInstance()->resolve($key);
     }
 }

@@ -4,9 +4,7 @@
 namespace GraphQLResolve;
 
 
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use GraphQLResolve\Traits\Singleton;
 
 /**
  * Class TypeRegistry
@@ -16,6 +14,12 @@ use GraphQLResolve\Traits\Singleton;
  */
 class TypeRegistry extends AbstractRegistry
 {
+    /**
+     * 获取对象名
+     *
+     * @param mixed $type 类型对象
+     * @return string 对象名
+     */
     protected function getKey($type): string
     {
         if (!($type instanceof Type)) {

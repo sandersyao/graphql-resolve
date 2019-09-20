@@ -9,6 +9,10 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Executor\Executor;
 
+/**
+ * Class AbstractObjectType
+ * @package GraphQLResolve
+ */
 abstract class AbstractObjectType extends ObjectType
 {
     /**
@@ -20,12 +24,14 @@ abstract class AbstractObjectType extends ObjectType
      * 获取字段
      *
      * @return mixed 字段配置
+     * @api
      */
     abstract public function fields();
 
     /**
      * AbstractObjectType constructor.
      * @param array $config 配置数据
+     * @api
      */
     public function __construct(array $config = [])
     {
