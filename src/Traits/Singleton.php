@@ -9,7 +9,7 @@ trait Singleton
     /**
      * @var
      */
-    static private $instance;
+    static protected $mapInstance   = [];
 
     /**
      * 获取实例
@@ -19,12 +19,14 @@ trait Singleton
      */
     static public function getInstance(...$args)
     {
-        if (empty(static::$instance) || get_called_class() != get_class(static::$instance)) {
+        $className  = get_called_class();
 
-            static::$instance   = new static(...$args);
+        if (!isset(self::$mapInstance[$className])) {
+
+            self::$mapInstance[$className]    = new $className(...$args);
         }
 
-        return  static::$instance;
+        return  self::$mapInstance[$className];
     }
 
     /**
@@ -32,7 +34,7 @@ trait Singleton
      */
     static public function destroy()
     {
-        static::$instance   = null;
+        self::$mapInstance[get_called_class()]  = null;
     }
 
     private function __construct(...$args)

@@ -16,12 +16,12 @@ abstract class AbstractInputObjectType extends InputObjectType
     abstract public function fields();
 
     /**
-     * AbstractObjectType constructor.
+     * ObjectConstruct constructor.
      * @param array $config
      */
     public function __construct(array $config = [])
     {
-        $config['fields']   = [$this, 'fields'];
+        $config['fields']       = [$this, 'fields'];
         $callbackDescription    = [$this, 'description'];
 
         if (is_callable($callbackDescription)) {

@@ -4,6 +4,7 @@
 namespace GraphQLResolve\Tests;
 
 
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQLResolve\AbstractObjectType;
 
@@ -24,6 +25,9 @@ class Order extends AbstractObjectType
             'sn'    => [
                 'type'          => Type::nonNull(Type::string()),
                 'description'   => '订单编号',
+                'resolve'       => function ($rootValue, $args, $context, ResolveInfo $resolveInfo) {
+                    return  $rootValue[$resolveInfo->fieldName];
+                }
             ],
             'userId'    => [
                 'type'          => Type::nonNull(Type::string()),

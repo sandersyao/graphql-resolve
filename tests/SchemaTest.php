@@ -4,9 +4,11 @@
 namespace GraphQLResolve\Tests;
 
 
+use GraphQL\Error\Debug;
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
+use GraphQLResolve\DirectiveRegistry;
 use GraphQLResolve\TypeRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -21,14 +23,19 @@ class SchemaTest extends TestCase
     {
         parent::setUp();
         TypeRegistry::load([
+            UserInput::class,
+            Order::class,
             Query::class,
             Mutation::class,
-            Order::class,
-            UserInput::class,
+        ]);
+        DirectiveRegistry::load([
+            UpperCase::class,
+            Substr::class,
         ]);
         $config = SchemaConfig::create()
             ->setQuery(TypeRegistry::get('Query'))
             ->setMutation(TypeRegistry::get('Mutation'))
+            ->setDirectives(DirectiveRegistry::getAll())
             ->setTypeLoader(function ($name) {
                 return TypeRegistry::get($name);
             });
@@ -39,6 +46,7 @@ class SchemaTest extends TestCase
     public function tearDown()
     {
         TypeRegistry::destroy();
+        DirectiveRegistry::destroy();
         parent::tearDown();
     }
 
@@ -63,7 +71,7 @@ sn
             null,
             []
         );
-        $data = $result->toArray(true);
+        $data = $result->toArray(Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
         $this->assertEquals(Query::TEST_DATA, $data['data']['orders']);
     }
 
@@ -137,5 +145,30 @@ sn
         $this->assertEquals(current(array_filter(Query::TEST_DATA, function ($item) use ($variables) {
             return  $variables['user']['id'] == $item['userId'];
         })), $data['data']['createOrder']);
+    }
+
+    public function testDirective()
+    {
+        $queryString = '{
+orders{
+id
+userId
+sn @uppercase @substr(offset:1)
+}
+}';
+        $result = GraphQL::executeQuery(
+            $this->schema,
+            $queryString,
+            null,
+            null,
+            []
+        );
+        $data = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
+        $this->assertEquals(array_map(function ($item) {
+
+            $item['sn'] = substr(strtoupper($item['sn']), 1);
+
+            return  $item;
+        },Query::TEST_DATA), $data['data']['orders']);
     }
 }
