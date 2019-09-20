@@ -19,6 +19,7 @@ trait Singleton
      *
      * @param mixed ...$args 构造函数参数
      * @return mixed 实例
+     * @api
      */
     static public function getInstance(...$args)
     {
@@ -34,6 +35,8 @@ trait Singleton
 
     /**
      * 销毁实例
+     *
+     * @api
      */
     static public function destroy()
     {
