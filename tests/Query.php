@@ -51,22 +51,6 @@ class Query extends AbstractObjectType
             'orders' => [
                 'type'          => Type::nonNull(Type::listOf(TypeRegistry::get('Order'))),
                 'description'   => '查询测试',
-                'resolve'       => function ($rootValue, $args) {
-
-                    if (isset($args['user'])) {
-
-                        return  array_filter(self::TEST_DATA, function ($item) use ($args) {
-                            return  $item['userId'] == $args['user']['id'];
-                        });
-                    }
-
-                    if (self::POS_ALL === $args['pos']) {
-
-                        return  self::TEST_DATA;
-                    }
-
-                    return  [self::TEST_DATA[$args['pos']]];
-                },
                 'args'          => [
                     'pos'   => [
                         'type'          => Type::int(),
@@ -94,6 +78,23 @@ class Query extends AbstractObjectType
                 'description'   => '联合类型测试',
             ]
         ]);
+    }
+
+    public function resolveOrdersField($parent, $args)
+    {
+        if (isset($args['user'])) {
+
+            return  array_filter(self::TEST_DATA, function ($item) use ($args) {
+                return  $item['userId'] == $args['user']['id'];
+            });
+        }
+
+        if (self::POS_ALL === $args['pos']) {
+
+            return  self::TEST_DATA;
+        }
+
+        return  [self::TEST_DATA[$args['pos']]];
     }
 
     public function resolveNodeField($parent, $args)
