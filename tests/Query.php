@@ -23,13 +23,28 @@ class Query extends AbstractObjectType
         ],
     ];
 
+    const TEST_NODES    = [
+        [
+            'id'    => 'sku:1',
+            'name'  => 'abc',
+        ],
+        [
+            'id'    => 'order:3',
+            'userId'=> '1',
+            'sn'    => 'cde',
+        ],
+    ];
+
     const POS_ALL   = 'all';
 
-    public function description()
-    {
-        return  '根查询';
-    }
+    /**
+     * @var string 描述
+     */
+    public $description = '根查询';
 
+    /**
+     * @return array|mixed 字段定义
+     */
     public function fields()
     {
         return  array_filter([
@@ -61,9 +76,26 @@ class Query extends AbstractObjectType
                     'user'  => [
                         'type'          => TypeRegistry::get('UserInput'),
                         'description'   => '输入类型参数测试',
-                    ]
+                    ],
+                ],
+            ],
+            'node'  => [
+                'type'          => Type::nonNull(TypeRegistry::get('Node')),
+                'description'   => '测试查询2',
+                'args'          => [
+                    'id'    => [
+                        'type'          => Type::id(),
+                        'description'   => '查询ID',
+                    ],
                 ],
             ],
         ]);
+    }
+
+    public function resolveNodeField($parent, $args)
+    {
+        return current(array_filter(self::TEST_NODES, function ($item) use ($args) {
+            return  $args['id'] == $item['id'];
+        }));
     }
 }

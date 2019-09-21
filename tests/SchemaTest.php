@@ -27,8 +27,18 @@ class SchemaTest extends TestCase
     {
         parent::setUp();
         TypeRegistry::load([
+
+            // Interfaces
+            Node::class,
+
+            // Input Object Types
             UserInput::class,
+
+            // Output Object Types
+            Sku::class,
             Order::class,
+
+            // Root Types
             Query::class,
             Mutation::class,
         ]);
@@ -89,8 +99,8 @@ sn
      */
     public function testArguments()
     {
-        $position = 0;
-        $queryString = '{
+        $position       = 0;
+        $queryString    = '{
 orders (pos:' . $position . ') {
 id
 userId
@@ -110,6 +120,8 @@ sn
 
     /**
      * 测试输入对象类型
+     *
+     * @covers \GraphQLResolve\AbstractInputObjectType
      */
     public function testInputObject()
     {
@@ -136,6 +148,9 @@ sn
 
     /**
      * 测试变更
+     *
+     * @covers \GraphQLResolve\AbstractObjectType
+     * @covers \GraphQLResolve\AbstractInputObjectType
      */
     public function testMutation()
     {
@@ -162,6 +177,8 @@ sn
 
     /**
      * 测试指令
+     *
+     * @covers \GraphQLResolve\AbstractDirective
      */
     public function testDirective()
     {
@@ -186,5 +203,47 @@ sn @uppercase @substr(offset:1)
 
             return  $item;
         },Query::TEST_DATA), $data['data']['orders']);
+    }
+
+    /**
+     * 测试接口
+     *
+     * @covers \GraphQLResolve\AbstractObjectType
+     */
+    public function testInterface()
+    {
+        $idSku          = 'sku:1';
+        $idOrder        = 'order:3';
+        $queryString    = '{
+sku:node (id:"' . $idSku . '"){
+id
+... on Sku {
+name
+}
+}
+order:node (id:"' . $idOrder . '"){
+id
+... on Order {
+userId
+sn
+}
+}
+}';
+        $result = GraphQL::executeQuery(
+            $this->schema,
+            $queryString,
+            null,
+            null,
+            []
+        );
+        $data = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
+        $this->assertEquals([
+            'sku'   => current(array_filter(Query::TEST_NODES, function ($item) use ($idSku) {
+                return  $idSku == $item['id'];
+            })),
+            'order' => current(array_filter(Query::TEST_NODES, function ($item) use ($idOrder) {
+                return  $idOrder == $item['id'];
+            })),
+        ], $data['data']);
     }
 }

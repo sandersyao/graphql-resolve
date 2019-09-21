@@ -7,14 +7,33 @@ namespace GraphQLResolve\Tests;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQLResolve\AbstractObjectType;
+use GraphQLResolve\TypeRegistry;
 
 class Order extends AbstractObjectType
 {
-    public function description()
+
+    /**
+     * @var string 描述
+     */
+    public $description = '订单类型';
+
+    /**
+     * Order constructor.
+     * @param array $config
+     */
+    public function __construct(array $config = [])
     {
-        return  '订单类型';
+        $config['interfaces']   = [
+            TypeRegistry::get('Node'),
+        ];
+        parent::__construct($config);
     }
 
+    /**
+     * 字段定义
+     *
+     * @return array|mixed
+     */
     public function fields()
     {
         return  [

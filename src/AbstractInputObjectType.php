@@ -27,11 +27,10 @@ abstract class AbstractInputObjectType extends InputObjectType
     public function __construct(array $config = [])
     {
         $config['fields']       = [$this, 'fields'];
-        $callbackDescription    = [$this, 'description'];
 
-        if (is_callable($callbackDescription)) {
+        if (!empty($this->description)) {
 
-            $config['descriptions'] = $callbackDescription();
+            $config['descriptions'] = $this->description;
         }
 
         parent::__construct($config);

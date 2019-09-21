@@ -9,6 +9,13 @@ use GraphQLResolve\AbstractInputObjectType;
 
 class UserInput extends AbstractInputObjectType
 {
+    public $description = '输入用户类型';
+
+    /**
+     * 字段定义
+     *
+     * @return array|mixed
+     */
     public function fields()
     {
         return  [

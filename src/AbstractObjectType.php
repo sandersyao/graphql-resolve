@@ -5,6 +5,7 @@ namespace GraphQLResolve;
 
 
 use GraphQL\Language\AST\DirectiveNode;
+use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Executor\Executor;
@@ -23,7 +24,7 @@ abstract class AbstractObjectType extends ObjectType
     /**
      * 获取字段
      *
-     * @return mixed 字段配置
+     * @return array|callable 字段配置
      * @api
      */
     abstract public function fields();
@@ -35,12 +36,11 @@ abstract class AbstractObjectType extends ObjectType
      */
     public function __construct(array $config = [])
     {
-        $config['fields']       = $this->fieldConfig($this->fields());
-        $callbackDescription    = [$this, 'description'];
+        $config['fields']   = $this->fieldConfig($this->fields());
 
-        if (is_callable($callbackDescription)) {
+        if (!empty($this->description)) {
 
-            $config['descriptions'] = $callbackDescription();
+            $config['descriptions'] = $this->description;
         }
 
         parent::__construct($config);
@@ -68,14 +68,14 @@ abstract class AbstractObjectType extends ObjectType
     /**
      * 加载字段解析逻辑
      *
-     * @param array $fieldConfig 字段配置数据
+     * @param array|FieldDefinition $fieldConfig 字段配置数据
      * @param string $key 字段配置键
-     * @return array 字段配置数据
+     * @return array|FieldDefinition 字段配置数据
      */
-    protected function getFieldResolver(array $fieldConfig, string $key): array
+    protected function getFieldResolver($fieldConfig, string $key)
     {
         $fieldName      = $this->getFieldName($fieldConfig, $key);
-        $fieldConfig['resolve']   = function (
+        $replaceResolve = function (
             $parent,
             $args,
             $context,
@@ -87,18 +87,31 @@ abstract class AbstractObjectType extends ObjectType
             return  $this->directivesExecute($parent, $fieldName, $fieldValue, $resolveInfo);
         };
 
+        if ($fieldConfig instanceof FieldDefinition) {
+
+            $fieldConfig->resolveFn = $replaceResolve;
+        } else {
+
+            $fieldConfig['resolve'] = $replaceResolve;
+        }
+
         return  $fieldConfig;
     }
 
     /**
      * 获取字段名
      *
-     * @param array $fieldConfig 字段配置数据
+     * @param array|FieldDefinition $fieldConfig 字段配置数据
      * @param string $key 字段配置键
      * @return string 字段名
      */
-    private function getFieldName(array $fieldConfig, string $key): string
+    private function getFieldName($fieldConfig, string $key): string
     {
+        if ($fieldConfig instanceof FieldDefinition) {
+
+            return  $fieldConfig->name;
+        }
+
         $fieldName  = $fieldConfig['name'] ?? $key;
 
         if (!is_string($fieldName)) {
@@ -116,7 +129,7 @@ abstract class AbstractObjectType extends ObjectType
      * @param array $args 字段参数
      * @param mixed $context 上下文数据
      * @param ResolveInfo $resolveInfo 解析信息
-     * @param array $fieldConfig 字段配置数据
+     * @param array|FieldDefinition $fieldConfig 字段配置数据
      * @param string $fieldName 字段名
      * @return mixed|null 执行结果
      */
@@ -125,13 +138,16 @@ abstract class AbstractObjectType extends ObjectType
         array $args,
         $context,
         ResolveInfo $resolveInfo,
-        array $fieldConfig,
+        $fieldConfig,
         string $fieldName
     )
     {
-        $originResolve  = isset($fieldConfig['resolve']) && is_callable($fieldConfig['resolve'])
-                        ? $fieldConfig['resolve']
-                        : null;
+        $originResolve  = null;
+
+        if (!($fieldConfig instanceof FieldDefinition)) {
+
+            $originResolve  = $fieldConfig['resolve'] ?? null;
+        }
 
         if (is_callable($originResolve)) {
 
