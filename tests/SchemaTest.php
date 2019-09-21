@@ -38,6 +38,9 @@ class SchemaTest extends TestCase
             Sku::class,
             Order::class,
 
+            // Union Types
+            SearchResult::class,
+
             // Root Types
             Query::class,
             Mutation::class,
@@ -210,7 +213,7 @@ sn @uppercase @substr(offset:1)
      *
      * @covers \GraphQLResolve\AbstractObjectType
      */
-    public function testInterface()
+    public function testInterfaceType()
     {
         $idSku          = 'sku:1';
         $idOrder        = 'order:3';
@@ -245,5 +248,41 @@ sn
                 return  $idOrder == $item['id'];
             })),
         ], $data['data']);
+    }
+
+    /**
+     * 测试联合类型
+     *
+     * @covers \GraphQLResolve\AbstractObjectType
+     */
+    public function testUnionType()
+    {
+        $queryString    = '{
+search{
+__typename
+... on Order{
+id
+userId
+sn
+}
+... on Sku{
+id
+name
+}
+}
+}';
+        $result = GraphQL::executeQuery(
+            $this->schema,
+            $queryString,
+            null,
+            null,
+            []
+        );
+        $data = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
+        $this->assertEquals(array_map(function ($item) {
+            list($type) = explode(':', $item['id'], 2);
+            $item['__typename'] = ucfirst($type);
+            return  $item;
+        },Query::TEST_NODES), $data['data']['search']);
     }
 }

@@ -89,6 +89,10 @@ class Query extends AbstractObjectType
                     ],
                 ],
             ],
+            'search'    => [
+                'type'          => Type::nonNull(Type::listOf(TypeRegistry::get('SearchResult'))),
+                'description'   => '联合类型测试',
+            ]
         ]);
     }
 
@@ -97,5 +101,10 @@ class Query extends AbstractObjectType
         return current(array_filter(self::TEST_NODES, function ($item) use ($args) {
             return  $args['id'] == $item['id'];
         }));
+    }
+
+    public function resolveSearchField($parent)
+    {
+        return  self::TEST_NODES;
     }
 }

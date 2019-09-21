@@ -25,7 +25,7 @@ class Node extends InterfaceType
         $config['description']  = '测试接口';
         $config['fields']       = [
             'id'    => [
-                'type'          => Type::id(),
+                'type'          => Type::nonNull(Type::id()),
                 'description'   => '测试字段',
                 'resolve'       => function ($parent, $args, $context, ResolveInfo $resolveInfo) {
 
