@@ -26,7 +26,7 @@ abstract class AbstractInputObjectType extends InputObjectType
      */
     public function __construct(array $config = [])
     {
-        $config['fields']       = [$this, 'fields'];
+        $config['fields']   = [$this, 'fields'];
 
         if (!empty($this->description)) {
 
