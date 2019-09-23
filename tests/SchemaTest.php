@@ -92,7 +92,7 @@ sn
             []
         );
         $data = $result->toArray(Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
-        $this->assertEquals(Query::TEST_DATA, $data['data']['orders']);
+        $this->assertEquals(OrdersField::TEST_DATA, $data['data']['orders']);
     }
 
     /**
@@ -118,7 +118,7 @@ sn
             []
         );
         $data = $result->toArray();
-        $this->assertEquals([Query::TEST_DATA[$position]], $data['data']['orders']);
+        $this->assertEquals([OrdersField::TEST_DATA[$position]], $data['data']['orders']);
     }
 
     /**
@@ -144,7 +144,7 @@ sn
             $variables
         );
         $data = $result->toArray(true);
-        $this->assertEquals(array_filter(Query::TEST_DATA, function ($item) use ($variables) {
+        $this->assertEquals(array_filter(OrdersField::TEST_DATA, function ($item) use ($variables) {
             return  $variables['user']['id'] == $item['userId'];
         }), $data['data']['orders']);
     }
@@ -172,8 +172,8 @@ sn
             null,
             $variables
         );
-        $data = $result->toArray(true);
-        $this->assertEquals(current(array_filter(Query::TEST_DATA, function ($item) use ($variables) {
+        $data = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
+        $this->assertEquals(current(array_filter(OrdersField::TEST_DATA, function ($item) use ($variables) {
             return  $variables['user']['id'] == $item['userId'];
         })), $data['data']['createOrder']);
     }
@@ -205,7 +205,7 @@ sn @uppercase @substr(offset:1)
             $item['sn'] = substr(strtoupper($item['sn']), 1);
 
             return  $item;
-        },Query::TEST_DATA), $data['data']['orders']);
+        },OrdersField::TEST_DATA), $data['data']['orders']);
     }
 
     /**
@@ -239,12 +239,16 @@ sn
             null,
             []
         );
-        $data = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
+        $data   = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
         $this->assertEquals([
-            'sku'   => current(array_filter(Query::TEST_NODES, function ($item) use ($idSku) {
+            'sku'   => current(array_map(function ($item) {
+                $item['id'] = base64_encode($item['id']);
+
+                return  $item;
+            }, array_filter(NodeField::TEST_NODES, function ($item) use ($idSku) {
                 return  $idSku == $item['id'];
-            })),
-            'order' => current(array_filter(Query::TEST_NODES, function ($item) use ($idOrder) {
+            }))),
+            'order' => current(array_filter(NodeField::TEST_NODES, function ($item) use ($idOrder) {
                 return  $idOrder == $item['id'];
             })),
         ], $data['data']);
@@ -280,9 +284,17 @@ name
         );
         $data = $result->toArray(Debug::INCLUDE_DEBUG_MESSAGE|Debug::INCLUDE_TRACE);
         $this->assertEquals(array_map(function ($item) {
+
             list($type) = explode(':', $item['id'], 2);
-            $item['__typename'] = ucfirst($type);
+            $type       = ucfirst($type);
+            $item['__typename'] = $type;
+
+            if('Sku' == $type) {
+
+                $item['id'] = base64_encode($item['id']);
+            }
+
             return  $item;
-        },Query::TEST_NODES), $data['data']['search']);
+        },SearchQuery::TEST_NODES), $data['data']['search']);
     }
 }
