@@ -5,6 +5,7 @@ namespace GraphQLResolve;
 
 /**
  * Class DirectiveRegistry
+ *
  * @package GraphQLResolve
  */
 class DirectiveRegistry extends AbstractRegistry

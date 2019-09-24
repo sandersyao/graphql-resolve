@@ -8,6 +8,7 @@ use GraphQL\Type\Definition\Type;
 
 /**
  * Class TypeRegistry
+ *
  * @package GraphQLResolve
  *
  * 注册并管理GraphQL类型（包括输出和输入类型、标量、接口和联合类型）

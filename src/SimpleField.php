@@ -9,8 +9,22 @@ use GraphQL\Language\AST\DirectiveNode;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ResolveInfo;
 
+/**
+ * Class SimpleField 简单字段
+ *
+ * 无解析逻辑
+ * 采用默认解析逻辑进行处理
+ * 并处理指令
+ *
+ * @package GraphQLResolve
+ */
 class SimpleField extends FieldDefinition
 {
+    /**
+     * SimpleField constructor.
+     *
+     * @param array $config 配置数据
+     */
     public function __construct(array $config)
     {
         $config = array_merge($config, [
@@ -20,6 +34,8 @@ class SimpleField extends FieldDefinition
     }
 
     /**
+     * 解析
+     *
      * @param mixed $parent 上级节点数据
      * @param array $args 参数
      * @param mixed $context 上下文数据

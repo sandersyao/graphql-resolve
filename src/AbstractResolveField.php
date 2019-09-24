@@ -27,6 +27,7 @@ abstract class AbstractResolveField extends FieldDefinition
 
     /**
      * AbstractResolveField constructor.
+     *
      * @param array $config 字段配置数据
      */
     public function __construct(array $config)
@@ -62,6 +63,8 @@ abstract class AbstractResolveField extends FieldDefinition
     }
 
     /**
+     * 解析
+     *
      * @param mixed $parent 上级节点数据
      * @param array $args 参数
      * @param mixed $context 上下文数据

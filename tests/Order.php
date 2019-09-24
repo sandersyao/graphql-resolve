@@ -4,7 +4,6 @@
 namespace GraphQLResolve\Tests;
 
 
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQLResolve\AbstractObjectType;
 use GraphQLResolve\SimpleField;
@@ -38,19 +37,21 @@ class Order extends AbstractObjectType
     public function fields()
     {
         return  [
-            'id'    => [
+            new SimpleField([
+                'name'          => 'id',
                 'type'          => Type::nonNull(Type::id()),
                 'description'   => '订单ID',
-            ],
+            ]),
             new SimpleField([
                 'name'          => 'sn',
                 'type'          => Type::nonNull(Type::string()),
                 'description'   => '订单编号',
             ]),
-            'userId'    => [
+            new SimpleField([
+                'name'          => 'userId',
                 'type'          => Type::nonNull(Type::string()),
                 'description'   => '用户ID',
-            ],
+            ]),
         ];
     }
 }
