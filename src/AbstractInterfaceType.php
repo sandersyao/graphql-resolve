@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 /**
  * Class AbstractInterfaceType
+ *
  * @package GraphQLResolve
  */
 abstract class AbstractInterfaceType extends InterfaceType
