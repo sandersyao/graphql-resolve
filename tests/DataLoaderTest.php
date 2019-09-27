@@ -77,6 +77,10 @@ name
 friends{
 id
 name
+friends{
+  id
+  name
+}
 }
 }
 }';
@@ -88,8 +92,6 @@ name
         $result = AbstractDataLoader::promiseDefault()->wait($promise);
         $data   = $result->toArray(Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
         $this->assertEquals(DataLoaderQuery::DATA_USER[Me::ID]['id'], $data['data']['me']['id']);
-        $this->assertEquals(array_map(function ($id) {
-            return  DataLoaderQuery::DATA_USER[$id];
-        }, DataLoaderQuery::DATA_FRIENDS[Me::ID]), $data['data']['me']['friends']);
+        $this->assertEquals(2, UserLoader::$countCall);
     }
 }
