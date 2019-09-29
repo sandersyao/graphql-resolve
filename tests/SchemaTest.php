@@ -23,7 +23,7 @@ class SchemaTest extends TestCase
     /**
      * 建立基境
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         TypeRegistry::load([
@@ -63,7 +63,7 @@ class SchemaTest extends TestCase
     /**
      * 销毁基境
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         TypeRegistry::destroy();
         DirectiveRegistry::destroy();
