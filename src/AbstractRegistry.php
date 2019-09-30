@@ -96,4 +96,26 @@ abstract class AbstractRegistry
     {
         return  self::getInstance()->resolve($key);
     }
+
+    /**
+     * 判断是否存在键
+     *
+     * @param string $key 键
+     * @return bool 判断结果
+     * @api
+     */
+    public static function has(string $key): bool
+    {
+        try {
+
+            self::getInstance()->resolve($key);
+
+        } catch (\UnexpectedValueException $e) {
+
+            return  false;
+        }
+
+        return true;
+    }
+
 }

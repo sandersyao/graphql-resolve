@@ -4,10 +4,15 @@
 namespace GraphQLResolve\Tests\Laravel;
 
 
+use GraphQL\Error\Debug;
+use GraphQLResolve\DirectiveRegistry;
+use GraphQLResolve\Tests\Laravel\Http\GraphQLController;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\Tests\Laravel\Models\Sku;
 use GraphQLResolve\Tests\Laravel\Models\Spu;
 use GraphQLResolve\Tests\Laravel\Models\User;
+use GraphQLResolve\Tests\Laravel\Types\Query;
+use GraphQLResolve\TypeRegistry;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase;
@@ -46,6 +51,13 @@ class RequestTest extends TestCase
             'database'  => ':memory:',
             'prefix'    => '',
         ]);
+        $app['router']->post('graphql', GraphQLController::class . '@resolve');
+        $app['config']->set('graphql.types', [
+            Query::class,
+        ]);
+        $app['config']->set('graphql.directives', []);
+        $app['config']->set('graphql.loaders', []);
+        $app['config']->set('graphql.debug', Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
     }
 
     /**
@@ -54,6 +66,8 @@ class RequestTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Laravel application initialize
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->withFactories(__DIR__ . '/database/factories');
         factory(User::class, 10)->create();
@@ -66,6 +80,8 @@ class RequestTest extends TestCase
      */
     protected function tearDown(): void
     {
+        TypeRegistry::destroy();
+        DirectiveRegistry::destroy();
         parent::tearDown();
     }
 
@@ -78,5 +94,22 @@ class RequestTest extends TestCase
         $this->assertEquals(1, Spu::query()->findOrFail(1)->getKey());
         $this->assertEquals(1, Sku::query()->findOrFail(1)->getKey());
         $this->assertEquals(1, Order::query()->findOrFail(1)->getKey());
+    }
+
+    public function testSimpleRequest()
+    {
+        $queryString    = <<<'GQL'
+{
+hello
+}
+GQL;
+
+        $response       = $this->postJson('/graphql', [
+            'operationName' => '',
+            'query'         => $queryString,
+            'variables'     => null,
+        ]);
+        $response->assertStatus(200)
+            ->assertSee('Hello World');
     }
 }

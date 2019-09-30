@@ -62,7 +62,9 @@ $factory->define(Order::class, function (Faker $faker) {
     ];
 });
 $factory->afterCreating(Order::class, function (Order $order, Faker $faker) {
-    $order->goods()->saveMany(factory(OrderGoods::class, $faker->numberBetween(1,5))->make());
+    $order->goods()->saveMany(
+        factory(OrderGoods::class, 1)->make()
+    );
     $order->total_quantity          = $order->goods->sum('quantity');
     $order->total_tag_amount        = $order->goods->sum('tag_amount');
     $order->total_should_pay_amount = $order->goods->sum('should_pay_amount');

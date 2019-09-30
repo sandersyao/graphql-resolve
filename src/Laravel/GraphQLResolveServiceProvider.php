@@ -3,7 +3,14 @@
 
 namespace GraphQLResolve\Laravel;
 
-class GraphQLResolveServiceProvider extends \Illuminate\Support\ServiceProvider
+use GraphQL\Type\Schema;
+use GraphQL\Type\SchemaConfig;
+use GraphQLResolve\DirectiveRegistry;
+use GraphQLResolve\LoaderRegistry;
+use GraphQLResolve\TypeRegistry;
+use Illuminate\Support\ServiceProvider;
+
+class GraphQLResolveServiceProvider extends ServiceProvider
 {
 
     public function boot()
@@ -16,6 +23,34 @@ class GraphQLResolveServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
-        parent::register();
+        $this->app->singleton(Schema::class, function () {
+
+            TypeRegistry::load(config('graphql.types'));
+            DirectiveRegistry::load(config('graphql.directives'));
+            LoaderRegistry::load(config('graphql.loaders'));
+            $config = SchemaConfig::create();
+
+            if (TypeRegistry::has('Query')) {
+
+                $config->setQuery(TypeRegistry::get('Query'));
+            }
+
+            if (TypeRegistry::has('Mutation')) {
+
+                $config->setQuery(TypeRegistry::get('Mutation'));
+            }
+
+            if (TypeRegistry::has('Subscription')) {
+
+                $config->setQuery(TypeRegistry::get('Subscription'));
+            }
+
+            $config->setDirectives(DirectiveRegistry::getAll())
+                ->setTypeLoader([TypeRegistry::class, 'get']);
+            $schema = new Schema($config);
+            $schema->assertValid();
+
+            return  $schema;
+        });
     }
 }
