@@ -4,7 +4,6 @@
 namespace GraphQLResolve\Tests\Laravel\Http;
 
 
-use GraphQL\Error\Debug;
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use GraphQLResolve\AbstractDataLoader;

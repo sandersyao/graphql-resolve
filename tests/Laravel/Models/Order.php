@@ -2,13 +2,13 @@
 
 namespace GraphQLResolve\Tests\Laravel\Models;
 
-use GraphQLResolve\Tests\Laravel\Models\User;
+use GraphQLResolve\Laravel\SelectTransform;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, SelectTransform;
 
     /**
      * 订单状态

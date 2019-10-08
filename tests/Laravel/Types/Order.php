@@ -1,0 +1,34 @@
+<?php
+
+
+namespace GraphQLResolve\Tests\Laravel\Types;
+
+
+use GraphQL\Type\Definition\Type;
+use GraphQLResolve\AbstractObjectType;
+use GraphQLResolve\SimpleField;
+use GraphQLResolve\TypeRegistry;
+
+class Order extends AbstractObjectType
+{
+    public function fields()
+    {
+        return  [
+            new SimpleField([
+                'name'          => 'id',
+                'type'          => Type::id(),
+                'description'   => '订单ID',
+            ]),
+            new SimpleField([
+                'name'          => 'sn',
+                'type'          => Type::string(),
+                'description'   => '订单编号',
+            ]),
+            new SimpleField([
+                'name'          => 'user',
+                'type'          => TypeRegistry::get('User'),
+                'description'   => '下单用户',
+            ]),
+        ];
+    }
+}

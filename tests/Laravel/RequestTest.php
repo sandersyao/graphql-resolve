@@ -53,6 +53,8 @@ class RequestTest extends TestCase
         ]);
         $app['router']->post('graphql', GraphQLController::class . '@resolve');
         $app['config']->set('graphql.types', [
+            Types\User::class,
+            Types\Order::class,
             Query::class,
         ]);
         $app['config']->set('graphql.directives', []);
@@ -70,6 +72,8 @@ class RequestTest extends TestCase
         // Laravel application initialize
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->withFactories(__DIR__ . '/database/factories');
+
+        // Testing data generate
         factory(User::class, 10)->create();
         factory(Spu::class, 10)->create();
         factory(Order::class, 10)->create();
@@ -96,6 +100,9 @@ class RequestTest extends TestCase
         $this->assertEquals(1, Order::query()->findOrFail(1)->getKey());
     }
 
+    /**
+     * 简单查询用例
+     */
     public function testSimpleRequest()
     {
         $queryString    = <<<'GQL'
@@ -103,7 +110,6 @@ class RequestTest extends TestCase
 hello
 }
 GQL;
-
         $response       = $this->postJson('/graphql', [
             'operationName' => '',
             'query'         => $queryString,
@@ -111,5 +117,33 @@ GQL;
         ]);
         $response->assertStatus(200)
             ->assertSee('Hello World');
+    }
+
+    /**
+     * 数据查询测试用例
+     */
+    public function testDataQuery()
+    {
+        $queryString    = <<<'GQL'
+{
+hello
+first:order(id:1){
+  id
+  sn
+}
+second:order(id:2){
+  id
+  sn
+}
+}
+GQL;
+        $response       = $this->postJson('/graphql', [
+            'operationName' => '',
+            'query'         => $queryString,
+            'variables'     => null,
+        ]);
+        $response->dump();
+        $response->assertStatus(200)
+            ->assertSee('"id":"1"');
     }
 }
