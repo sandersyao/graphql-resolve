@@ -18,8 +18,11 @@ GraphQL逻辑拆分
 
 参照测试用例类型：tests/SchemaTest.php 中的实现
 
+Laravel 框架结合使用的测试用例： tests/Laravel/RequestTest.php
+
 ## 需要要解决的问题
 
-1. 使用字段名称映射方法来进行解析将导致根查询臃肿，我还没有拿定注意是否需要将查询逻辑抽象出来复用以及如何抽象。
+1. 对字段的错误输出进行控制
+1. 尝试应用 Laravel 的 Gate 和 Policy 授权校验方式
 
 本项目基于 webonyx/graphql-php 开发

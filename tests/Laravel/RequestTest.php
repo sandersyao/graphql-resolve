@@ -144,6 +144,7 @@ GQL;
         ]);
         $response->dump();
         $response->assertStatus(200)
-            ->assertSee('"id":"1"');
+            ->assertSee('"id":"1"')
+            ->assertSee('"id":"2"');
     }
 }
