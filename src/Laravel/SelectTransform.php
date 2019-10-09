@@ -17,7 +17,7 @@ trait SelectTransform
      * 从解析数据中提取选取字段
      *
      * @param Builder $query 查询构建器
-     * @param array $transformRules 提取规则 ['查询字段' => '数据库字段 or callable 伪类型实例']
+     * @param array $transformRules 提取规则 ['查询字段' => '数据库字段 or 闭包实例']
      * @param ResolveInfo $resolveInfo 解析信息
      * @return Builder 查询构建器
      */

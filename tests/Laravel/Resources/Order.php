@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class Order extends Resource
 {
-    public function toArray($request)
+    public function toArray($args)
     {
         return  [
             'id'    => $this->id,

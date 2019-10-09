@@ -8,3 +8,28 @@
 {"id":1,"sn":"e2ebcf28-7e79-3bdc-b2a8-de4e7453ef64"}
 {"id":2,"order_sn":"59faa9d3-7b81-35e5-a07d-8ed6184ded37"}
 {"id":2,"sn":"59faa9d3-7b81-35e5-a07d-8ed6184ded37"}
+3
+3
+3
+{"first":1,"second":2}
+3
+{"first":"1","second":"2"}
+3
+{"first":"1","second":"2"}
+3
+{"first":"1","second":"2"}
+3
+{"errors":[{"message":"Variable \"$first\" of type \"ID\" used in position expecting type \"ID!\".","extensions":{"category":"graphql"},"locations":[{"line":1,"column":18},{"line":3,"column":16}]},{"message":"Variable \"$second\" of type \"ID\" used in position expecting type \"ID!\".","extensions":{"category":"graphql"},"locations":[{"line":1,"column":28},{"line":7,"column":17}]}]}
+3
+{"first":"1","second":"2"}
+3
+{"errors":[{"message":"Variable \"$first\" of required type \"ID!\" was not provided.","extensions":{"category":"graphql"},"locations":[{"line":1,"column":18}]},{"message":"Variable \"$second\" of required type \"ID!\" was not provided.","extensions":{"category":"graphql"},"locations":[{"line":1,"column":29}]}]}
+3
+{"first":"1","second":"2"}
+3
+{"errors":[{"message":"Variable \"$first\" of required type \"ID!\" was not provided.","extensions":{"category":"graphql"},"locations":[{"line":1,"column":18}]},{"message":"Variable \"$second\" of required type \"ID!\" was not provided.","extensions":{"category":"graphql"},"locations":[{"line":1,"column":29}]}]}
+{"first":"1","second":"2"}
+{"id":1,"order_sn":"884d252d-5cca-3076-89b5-a517ecdd79fd"}
+{"id":2,"order_sn":"584cecef-0e67-3f4e-b7c0-3f1a2cc7584a"}
+3
+{"data":{"hello":"Hello World","first":{"id":"1","sn":"884d252d-5cca-3076-89b5-a517ecdd79fd"},"second":{"id":"2","sn":"584cecef-0e67-3f4e-b7c0-3f1a2cc7584a"}}}

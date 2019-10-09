@@ -125,13 +125,13 @@ GQL;
     public function testDataQuery()
     {
         $queryString    = <<<'GQL'
-{
+query findOrder ($first:ID!,$second:ID!) {
 hello
-first:order(id:1){
+first:order(id:$first){
   id
   sn
 }
-second:order(id:2){
+second:order(id:$second){
   id
   sn
 }
@@ -140,7 +140,7 @@ GQL;
         $response       = $this->postJson('/graphql', [
             'operationName' => '',
             'query'         => $queryString,
-            'variables'     => null,
+            'variables'     => ['first' => '1', 'second' => '2',],
         ]);
         $response->dump();
         $response->assertStatus(200)

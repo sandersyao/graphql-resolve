@@ -17,10 +17,14 @@ class GraphQLController extends Controller
         $operationName  = $request->input('operationName');
         $queryString    = $request->input('query');
         $variables      = $request->input('variables');
+        $root           = [];
+        $context        = null;
         $promise        = GraphQL::promiseToExecute(
             AbstractDataLoader::promiseDefault(),
             $schema,
             $queryString,
+            $root,
+            $context,
             $variables,
             $operationName
         );

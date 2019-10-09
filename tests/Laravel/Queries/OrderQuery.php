@@ -10,6 +10,7 @@ use GraphQLResolve\AbstractResolveField;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\TypeRegistry;
 use GraphQLResolve\Tests\Laravel\Resources\Order as OrderResource;
+use Illuminate\Support\Facades\Log;
 
 class OrderQuery extends AbstractResolveField
 {
@@ -36,6 +37,6 @@ class OrderQuery extends AbstractResolveField
             'sn'    => 'order_sn',
         ], $resolveInfo)->findOrFail($args['id']);
 
-        return  (new OrderResource($order))->toArray(request());
+        return  (new OrderResource($order))->toArray($args);
     }
 }
