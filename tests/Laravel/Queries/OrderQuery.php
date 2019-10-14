@@ -7,10 +7,9 @@ namespace GraphQLResolve\Tests\Laravel\Queries;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQLResolve\AbstractResolveField;
-use GraphQLResolve\Tests\Laravel\Models\Order;
+use GraphQLResolve\LoaderRegistry;
+use GraphQLResolve\Tests\Laravel\DataLoader\OrderDataLoader;
 use GraphQLResolve\TypeRegistry;
-use GraphQLResolve\Tests\Laravel\Resources\Order as OrderResource;
-use Illuminate\Support\Facades\Log;
 
 class OrderQuery extends AbstractResolveField
 {
@@ -32,11 +31,10 @@ class OrderQuery extends AbstractResolveField
 
     public function invoke($parent, array $args, $context, ResolveInfo $resolveInfo)
     {
-        $order  = Order::query()->selectTransform([
-            'id'    => 'id',
-            'sn'    => 'order_sn',
-        ], $resolveInfo)->findOrFail($args['id']);
+        $result = LoaderRegistry::get(OrderDataLoader::class)
+            ->setResolveInfo($resolveInfo)
+            ->load($args['id']);
 
-        return  (new OrderResource($order))->toArray($args);
+        return $result;
     }
 }

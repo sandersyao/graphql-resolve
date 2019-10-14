@@ -5,7 +5,12 @@ namespace GraphQLResolve\Tests\Laravel;
 
 
 use GraphQL\Error\Debug;
+use GraphQL\GraphQL;
+use GraphQL\Type\Schema;
+use GraphQL\Type\SchemaConfig;
+use GraphQLResolve\AbstractDataLoader;
 use GraphQLResolve\DirectiveRegistry;
+use GraphQLResolve\LoaderRegistry;
 use GraphQLResolve\Tests\Laravel\Http\GraphQLController;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\Tests\Laravel\Models\Sku;
@@ -17,6 +22,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase;
 use GraphQLResolve\Laravel\GraphQLResolveServiceProvider;
+use GraphQLResolve\Tests\Laravel\DataLoader\OrderDataLoader;
 
 class RequestTest extends TestCase
 {
@@ -58,7 +64,9 @@ class RequestTest extends TestCase
             Query::class,
         ]);
         $app['config']->set('graphql.directives', []);
-        $app['config']->set('graphql.loaders', []);
+        $app['config']->set('graphql.loaders', [
+            OrderDataLoader::class,
+        ]);
         $app['config']->set('graphql.debug', Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
     }
 
@@ -146,5 +154,78 @@ GQL;
         $response->assertStatus(200)
             ->assertSee('"id":"1"')
             ->assertSee('"id":"2"');
+    }
+
+    /**
+     * 调试用用例 用于模拟控制器中的情况 避免错误无法输出 方便调试
+     */
+    public function testInController()
+    {
+        $operationName  = 'findOrder';
+        $queryString    = <<<GQL
+query {$operationName} (\$first:ID!,\$second:ID!) {
+hello
+first:order(id:\$first){
+  id
+  sn
+}
+second:order(id:\$second){
+  id
+  sn
+}
+}
+GQL;
+
+        $variables      = ['first' => '1', 'second' => '2',];
+        $root           = [];
+        $context        = null;
+        $promise        = GraphQL::promiseToExecute(
+            AbstractDataLoader::promiseDefault(),
+            $this->debugSchema(),
+            $queryString,
+            $root,
+            $context,
+            $variables,
+            $operationName
+        );
+        $result         = AbstractDataLoader::promiseDefault()->wait($promise);
+        $debug          = config('graphql.debug', true);
+        $data   = $result->toArray($debug);
+        $this->assertNotEmpty($data);
+    }
+
+    /**
+     * 调试用 Schema
+     *
+     * @return Schema
+     */
+    private function debugSchema()
+    {
+        TypeRegistry::load(config('graphql.types'));
+        DirectiveRegistry::load(config('graphql.directives'));
+        LoaderRegistry::load(config('graphql.loaders'));
+        $config = SchemaConfig::create();
+
+        if (TypeRegistry::has('Query')) {
+
+            $config->setQuery(TypeRegistry::get('Query'));
+        }
+
+        if (TypeRegistry::has('Mutation')) {
+
+            $config->setQuery(TypeRegistry::get('Mutation'));
+        }
+
+        if (TypeRegistry::has('Subscription')) {
+
+            $config->setQuery(TypeRegistry::get('Subscription'));
+        }
+
+        $config->setDirectives(DirectiveRegistry::getAll())
+            ->setTypeLoader([TypeRegistry::class, 'get']);
+        $schema = new Schema($config);
+        $schema->assertValid();
+
+        return  $schema;
     }
 }

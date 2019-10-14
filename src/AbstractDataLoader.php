@@ -4,10 +4,11 @@
 namespace GraphQLResolve;
 
 
+use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\DataLoader\DataLoader;
 use Overblog\DataLoader\Option;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
-use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
+use GraphQLResolve\Laravel\WebonyxGraphQLSyncPromiseAdapter;
 
 /**
  * Class AbstractDataLoader
@@ -17,31 +18,61 @@ use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
 abstract class AbstractDataLoader extends DataLoader
 {
     /**
+     * 当前解析信息
+     *
+     * @var ResolveInfo 解析信息
+     */
+    protected $resolveInfo;
+
+    /**
      * DataLoader Promise实例
      *
-     * @var SyncPromiseAdapter
+     * @var SyncPromiseAdapter Promise 实例
      */
     protected static $promise;
 
     /**
      * DataLoader Promise适配器
      *
-     * @var WebonyxGraphQLSyncPromiseAdapter
+     * @var WebonyxGraphQLSyncPromiseAdapter Promise适配器实例
      */
     protected static $promiseAdapter;
 
     /**
      * 解析
      *
-     * @param $keys
-     * @return mixed
+     * @param $keys 键列表
+     * @return mixed 值列表
      */
     abstract public function resolve($keys);
 
     /**
+     * 设置解析信息
+     *
+     * @param ResolveInfo $resolveInfo 解析信息
+     * @return AbstractDataLoader 本类实例
+     */
+    public function setResolveInfo(ResolveInfo $resolveInfo): AbstractDataLoader
+    {
+        $this->resolveInfo  = $resolveInfo;
+
+        return $this;
+    }
+
+    /**
+     * 获取解析信息
+     *
+     * @return ResolveInfo 解析信息
+     */
+    public function getResolveInfo(): ResolveInfo
+    {
+        return  $this->resolveInfo;
+    }
+
+    /**
      * AbstractDataLoader constructor.
      *
-     * @param Option|null $options
+     * @param Option|null $options 配置信息
      */
     public function __construct(Option $options = null)
     {
@@ -51,7 +82,7 @@ abstract class AbstractDataLoader extends DataLoader
     /**
      * 获取Promise实例
      *
-     * @return SyncPromiseAdapter
+     * @return SyncPromiseAdapter Promise实例
      */
     public static function promiseDefault()
     {
@@ -66,7 +97,7 @@ abstract class AbstractDataLoader extends DataLoader
     /**
      * 获取Promise适配器
      *
-     * @return WebonyxGraphQLSyncPromiseAdapter
+     * @return WebonyxGraphQLSyncPromiseAdapter Promise适配器
      */
     public static function promise()
     {
