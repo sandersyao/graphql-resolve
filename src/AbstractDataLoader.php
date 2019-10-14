@@ -47,29 +47,6 @@ abstract class AbstractDataLoader extends DataLoader
     abstract public function resolve($keys);
 
     /**
-     * 设置解析信息
-     *
-     * @param ResolveInfo $resolveInfo 解析信息
-     * @return AbstractDataLoader 本类实例
-     */
-    public function setResolveInfo(ResolveInfo $resolveInfo): AbstractDataLoader
-    {
-        $this->resolveInfo  = $resolveInfo;
-
-        return $this;
-    }
-
-    /**
-     * 获取解析信息
-     *
-     * @return ResolveInfo 解析信息
-     */
-    public function getResolveInfo(): ResolveInfo
-    {
-        return  $this->resolveInfo;
-    }
-
-    /**
      * AbstractDataLoader constructor.
      *
      * @param Option|null $options 配置信息

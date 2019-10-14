@@ -6,14 +6,13 @@ namespace GraphQLResolve\Tests\Laravel\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class Order extends Resource
+class User extends Resource
 {
     public function toArray($args)
     {
         return  [
             'id'    => $this->id,
-            'sn'    => $this->order_sn,
-            'user'  => $this->user_id,
+            'name'  => $this->name,
         ];
     }
 }

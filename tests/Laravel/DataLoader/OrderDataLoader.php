@@ -20,24 +20,28 @@ class OrderDataLoader extends AbstractDataLoader
     public function resolve($keys)
     {
         self::$countCall ++;
+        $listId     = collect($keys)->pluck(0)->toArray();
+        $fields     = array_keys(collect($keys)->pluck(1)->reduce(function ($a, $b) {
+            return array_merge($a, $b);
+        }, []));
         $mapOrder   = Order::query()
             ->select(['id'])
             ->selectTransform([
-                'id'    => 'id',
-                'sn'    => 'order_sn',
-            ], $this->getResolveInfo())
-            ->whereIn('id', $keys)
+                'id'        => 'id',
+                'sn'        => 'order_sn',
+                'user'      => 'user_id',
+            ], $fields)
+            ->whereIn('id', $listId)
             ->get()
             ->keyBy('id');
 
-        $result = collect($keys)->map(function ($id) use ($mapOrder) {
+        $result = collect($listId)->map(function ($id) use ($mapOrder) {
 
             $order  = $mapOrder->get($id, null);
 
             return  null === $order ? null  : (new OrderResource($order))->toArray(request());
         });
-        $promise    = $this->promise()->createAll($result); //@todo 这里有鬼
 
-        return  $promise;
+        return  $this->promise()->createAll($result);
     }
 }

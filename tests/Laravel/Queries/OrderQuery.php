@@ -11,8 +11,16 @@ use GraphQLResolve\LoaderRegistry;
 use GraphQLResolve\Tests\Laravel\DataLoader\OrderDataLoader;
 use GraphQLResolve\TypeRegistry;
 
+/**
+ * Class OrderQuery
+ * @package GraphQLResolve\Tests\Laravel\Queries
+ */
 class OrderQuery extends AbstractResolveField
 {
+    /**
+     * OrderQuery constructor.
+     * @param array $config
+     */
     public function __construct(array $config = [])
     {
         $config = array_merge($config, [
@@ -29,11 +37,18 @@ class OrderQuery extends AbstractResolveField
         parent::__construct($config);
     }
 
+    /**
+     * @param mixed $parent
+     * @param array $args
+     * @param mixed $context
+     * @param ResolveInfo $resolveInfo
+     * @return mixed
+     */
     public function invoke($parent, array $args, $context, ResolveInfo $resolveInfo)
     {
-        $result = LoaderRegistry::get(OrderDataLoader::class)
-            ->setResolveInfo($resolveInfo)
-            ->load($args['id']);
+        $orderId    = $args['id'];
+        $result     = LoaderRegistry::get(OrderDataLoader::class)
+            ->load([$orderId, $resolveInfo->getFieldSelection()]);
 
         return $result;
     }

@@ -7,6 +7,7 @@ namespace GraphQLResolve\Tests\Laravel\Types;
 use GraphQL\Type\Definition\Type;
 use GraphQLResolve\AbstractObjectType;
 use GraphQLResolve\SimpleField;
+use GraphQLResolve\Tests\Laravel\Queries\UserQuery;
 use GraphQLResolve\TypeRegistry;
 
 class Order extends AbstractObjectType
@@ -24,9 +25,7 @@ class Order extends AbstractObjectType
                 'type'          => Type::string(),
                 'description'   => '订单编号',
             ]),
-            new SimpleField([
-                'name'          => 'user',
-                'type'          => TypeRegistry::get('User'),
+            new UserQuery([
                 'description'   => '下单用户',
             ]),
         ];

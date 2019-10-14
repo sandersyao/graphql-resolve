@@ -23,6 +23,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase;
 use GraphQLResolve\Laravel\GraphQLResolveServiceProvider;
 use GraphQLResolve\Tests\Laravel\DataLoader\OrderDataLoader;
+use GraphQLResolve\Tests\Laravel\DataLoader\User as UserDataLoader;
 
 class RequestTest extends TestCase
 {
@@ -66,6 +67,7 @@ class RequestTest extends TestCase
         $app['config']->set('graphql.directives', []);
         $app['config']->set('graphql.loaders', [
             OrderDataLoader::class,
+            UserDataLoader::class,
         ]);
         $app['config']->set('graphql.debug', Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
     }
@@ -143,6 +145,10 @@ first:order(id:$first){
 second:order(id:$second){
   id
   sn
+  user {
+    id
+    name
+  }
 }
 }
 GQL;
@@ -173,6 +179,10 @@ first:order(id:\$first){
 second:order(id:\$second){
   id
   sn
+  user {
+    id
+    name
+  }
 }
 }
 GQL;
@@ -192,6 +202,7 @@ GQL;
         $result         = AbstractDataLoader::promiseDefault()->wait($promise);
         $debug          = config('graphql.debug', true);
         $data   = $result->toArray($debug);
+        dump($data);
         $this->assertNotEmpty($data);
     }
 

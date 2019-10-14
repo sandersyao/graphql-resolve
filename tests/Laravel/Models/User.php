@@ -2,12 +2,13 @@
 
 namespace GraphQLResolve\Tests\Laravel\Models;
 
+use GraphQLResolve\Laravel\SelectTransform;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticate;
 
 class User extends Authenticate
 {
-    use Notifiable;
+    use Notifiable, SelectTransform;
 
     /**
      * The attributes that are mass assignable.
