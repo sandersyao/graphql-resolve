@@ -5,6 +5,7 @@ namespace GraphQLResolve;
 
 
 use Overblog\DataLoader\DataLoader;
+use UnexpectedValueException;
 
 /**
  * Class LoaderRegistry
@@ -24,7 +25,7 @@ class LoaderRegistry extends AbstractRegistry
         if (!($object instanceof DataLoader)) {
 
             $class  = is_object($object)    ? get_class($object)    : 'Scalar';
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Unexpect loader class ' . $class .
                 ', loader should be instance of ' . DataLoader::class . ' or its subclass.'
             );

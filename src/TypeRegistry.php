@@ -5,6 +5,7 @@ namespace GraphQLResolve;
 
 
 use GraphQL\Type\Definition\Type;
+use UnexpectedValueException;
 
 /**
  * Class TypeRegistry
@@ -25,7 +26,7 @@ class TypeRegistry extends AbstractRegistry
     {
         if (!($type instanceof Type)) {
 
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Unexpected argument $type, must be an instance of ' .
                 Type::class . ' or its subclass.'
             );

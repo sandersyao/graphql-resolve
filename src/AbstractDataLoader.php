@@ -41,7 +41,7 @@ abstract class AbstractDataLoader extends DataLoader
     /**
      * 解析
      *
-     * @param $keys 键列表
+     * @param iterable $keys 键列表
      * @return mixed 值列表
      */
     abstract public function resolve($keys);

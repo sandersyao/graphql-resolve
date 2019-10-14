@@ -5,6 +5,7 @@ namespace GraphQLResolve;
 
 
 use GraphQLResolve\Traits\Singleton;
+use UnexpectedValueException;
 
 /**
  * Class AbstractRegistry
@@ -41,7 +42,7 @@ abstract class AbstractRegistry
 
         if (isset($this->map[$key])) {
 
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Object by key ' . $key . ' already exists by class ' . get_class($this->map[$key]) .
                 ' can not registry class ' . get_class($object) . ' as same key.'
             );
@@ -63,7 +64,7 @@ abstract class AbstractRegistry
     {
         if (!isset($this->map[$key])) {
 
-            throw new \UnexpectedValueException('Key ' . $key . ' not registry');
+            throw new UnexpectedValueException('Key ' . $key . ' not registry');
         }
 
         return  $this->map[$key];
@@ -110,7 +111,7 @@ abstract class AbstractRegistry
 
             self::getInstance()->resolve($key);
 
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
 
             return  false;
         }

@@ -94,6 +94,7 @@ class RequestTest extends TestCase
     {
         TypeRegistry::destroy();
         DirectiveRegistry::destroy();
+        LoaderRegistry::destroy();
         parent::tearDown();
     }
 

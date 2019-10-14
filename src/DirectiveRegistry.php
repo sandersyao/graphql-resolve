@@ -3,6 +3,8 @@
 
 namespace GraphQLResolve;
 
+use UnexpectedValueException;
+
 /**
  * Class DirectiveRegistry
  *
@@ -20,7 +22,7 @@ class DirectiveRegistry extends AbstractRegistry
     {
         if (!($directive instanceof AbstractDirective)) {
 
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Unexpected argument $directive must a instance of class ' .
                 AbstractDirective::class . ' or its subclass.'
             );
