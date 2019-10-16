@@ -18,13 +18,6 @@ use GraphQLResolve\Laravel\WebonyxGraphQLSyncPromiseAdapter;
 abstract class AbstractDataLoader extends DataLoader
 {
     /**
-     * 当前解析信息
-     *
-     * @var ResolveInfo 解析信息
-     */
-    protected $resolveInfo;
-
-    /**
      * DataLoader Promise实例
      *
      * @var SyncPromiseAdapter Promise 实例
@@ -53,7 +46,18 @@ abstract class AbstractDataLoader extends DataLoader
      */
     public function __construct(Option $options = null)
     {
-        parent::__construct([$this, 'resolve'], $this->promise(), $options);
+        parent::__construct([$this, 'invoke'], $this->promise(), $options);
+    }
+
+    /**
+     * 解析执行方法 （可覆盖）
+     *
+     * @param iterable $keys 键列表
+     * @return mixed 值列表
+     */
+    public function invoke($keys)
+    {
+        return  $this->resolve($keys);
     }
 
     /**

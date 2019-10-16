@@ -4,6 +4,7 @@
 namespace GraphQLResolve\Tests\Laravel\DataLoader;
 
 
+use GraphQL\Executor\Promise\Promise;
 use GraphQLResolve\AbstractDataLoader;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\Tests\Laravel\Resources\Order as OrderResource;
@@ -17,6 +18,12 @@ class OrderDataLoader extends AbstractDataLoader
      */
     public static $countCall    = 0;
 
+    /**
+     * 获取数据
+     *
+     * @param iterable $keys 键
+     * @return Promise|mixed 结果
+     */
     public function resolve($keys)
     {
         self::$countCall ++;
@@ -27,7 +34,6 @@ class OrderDataLoader extends AbstractDataLoader
         $mapOrder   = Order::query()
             ->select(['id'])
             ->selectTransform([
-                'id'        => 'id',
                 'sn'        => 'order_sn',
                 'user'      => 'user_id',
             ], $fields)
