@@ -186,6 +186,7 @@ second:order(id:\$second){
 }
 }
 GQL;
+        //@todo 需要完善用例 进一步验证数据问题
 
         $variables      = ['first' => '1', 'second' => '2',];
         $root           = [];
