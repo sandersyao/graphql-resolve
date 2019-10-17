@@ -150,6 +150,13 @@ second:order(id:$second){
     name
   }
 }
+Third:order(id:3){
+  id
+  sn
+  user {
+    name
+  }
+}
 }
 GQL;
         $response       = $this->postJson('/graphql', [
@@ -184,9 +191,15 @@ second:order(id:\$second){
     name
   }
 }
+Third:order(id:3){
+  id
+  sn
+  user {
+    name
+  }
+}
 }
 GQL;
-        //@todo 需要完善用例 进一步验证数据问题
 
         $variables      = ['first' => '1', 'second' => '2',];
         $root           = [];
