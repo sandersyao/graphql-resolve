@@ -5,9 +5,10 @@ namespace GraphQLResolve\Tests\Laravel\DataLoader;
 
 
 use GraphQL\Executor\Promise\Promise;
-use GraphQLResolve\AbstractDataLoader;
+use GraphQLResolve\Laravel\AbstractDataLoader;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\Tests\Laravel\Resources\Order as OrderResource;
+use function foo\func;
 
 class OrderDataLoader extends AbstractDataLoader
 {
@@ -21,33 +22,22 @@ class OrderDataLoader extends AbstractDataLoader
     /**
      * 获取数据
      *
-     * @param iterable $keys 键
+     * @param array $query 查询
      * @return Promise|mixed 结果
      */
-    public function resolve($keys)
+    public function resolve($query)
     {
-        self::$countCall ++;
-        $listId     = collect($keys)->pluck(0)->toArray();
-        $fields     = array_keys(collect($keys)->pluck(1)->reduce(function ($a, $b) {
-            return array_merge($a, $b);
-        }, []));
-        $mapOrder   = Order::query()
+        return  Order::query()
             ->select(['id'])
             ->selectTransform([
                 'sn'        => 'order_sn',
                 'user'      => 'user_id',
-            ], $fields)
-            ->whereIn('id', $listId)
+            ], $query['fields'])
+            ->whereIn('id', $query['keys'])
             ->get()
-            ->keyBy('id');
-
-        $result = collect($listId)->map(function ($id) use ($mapOrder) {
-
-            $order  = $mapOrder->get($id, null);
-
-            return  null === $order ? null  : (new OrderResource($order))->toArray(request());
-        });
-
-        return  $this->promise()->createAll($result);
+            ->keyBy('id')
+            ->map(function ($order) {
+                return  (new OrderResource($order))->toArray(request());
+            });
     }
 }

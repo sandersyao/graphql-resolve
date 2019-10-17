@@ -41,7 +41,7 @@ class UserQuery extends AbstractResolveField
      */
     public function invoke($parent, array $args, $context, ResolveInfo $resolveInfo)
     {
-        $userId = isset($args['id'])    ? $args['id']   : $parent['user'];
+        $userId = isset($args['id'])    ? $args['id']   : $parent['user_id'];
         $result = LoaderRegistry::get(User::class)
             ->load([$userId, $resolveInfo->getFieldSelection()]);
 

@@ -11,9 +11,9 @@ class Order extends Resource
     public function toArray($args)
     {
         return  [
-            'id'    => $this->id,
-            'sn'    => $this->order_sn,
-            'user'  => $this->user_id,
+            'id'        => $this->id,
+            'sn'        => $this->order_sn,
+            'user_id'   => $this->user_id,
         ];
     }
 }
