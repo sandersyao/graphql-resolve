@@ -8,7 +8,6 @@ use GraphQL\Executor\Promise\Promise;
 use GraphQLResolve\Laravel\AbstractDataLoader;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\Tests\Laravel\Resources\Order as OrderResource;
-use function foo\func;
 
 class OrderDataLoader extends AbstractDataLoader
 {
@@ -31,7 +30,7 @@ class OrderDataLoader extends AbstractDataLoader
             ->select(['id'])
             ->selectTransform([
                 'sn'        => 'order_sn',
-                'user'      => 'user_id',
+                'user'      => 'user_id',   // 加载用户字段所需属性 @todo 需要考虑 字段查询对应多属性的情况 也可以考虑传入Closure
             ], $query['fields'])
             ->whereIn('id', $query['keys'])
             ->get()

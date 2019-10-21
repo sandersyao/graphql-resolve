@@ -7,8 +7,8 @@ namespace GraphQLResolve\Tests\Laravel\Types;
 use GraphQL\Type\Definition\Type;
 use GraphQLResolve\AbstractObjectType;
 use GraphQLResolve\SimpleField;
+use GraphQLResolve\Tests\Laravel\Queries\OrderGoodsQuery;
 use GraphQLResolve\Tests\Laravel\Queries\UserQuery;
-use GraphQLResolve\TypeRegistry;
 
 class Order extends AbstractObjectType
 {
@@ -28,6 +28,7 @@ class Order extends AbstractObjectType
             new UserQuery([
                 'description'   => '下单用户',
             ]),
+            new OrderGoodsQuery(),
         ];
     }
 }

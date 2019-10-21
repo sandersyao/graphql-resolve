@@ -61,6 +61,8 @@ class RequestTest extends TestCase
         $app['router']->post('graphql', GraphQLController::class . '@resolve');
         $app['config']->set('graphql.types', [
             Types\User::class,
+            Types\Sku::class,
+            Types\OrderGoods::class,
             Types\Order::class,
             Query::class,
         ]);
@@ -189,6 +191,12 @@ second:order(id:\$second){
   user {
     id
     name
+  }
+  orderGoods {
+    sku {
+      sn
+    }
+    quantity
   }
 }
 Third:order(id:3){

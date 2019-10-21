@@ -2,10 +2,13 @@
 
 namespace GraphQLResolve\Tests\Laravel\Models;
 
+use GraphQLResolve\Laravel\SelectTransform;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderGoods extends Model
 {
+    use SelectTransform;
+
     protected $guarded  = ['id'];
 
     public function sku()

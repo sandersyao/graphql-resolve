@@ -47,9 +47,8 @@ class OrderQuery extends AbstractResolveField
     public function invoke($parent, array $args, $context, ResolveInfo $resolveInfo)
     {
         $orderId    = $args['id'];
-        $result     = LoaderRegistry::get(OrderDataLoader::class)
-            ->load([$orderId, $resolveInfo->getFieldSelection()]);
 
-        return $result;
+        return      LoaderRegistry::get(OrderDataLoader::class)
+            ->load([$orderId, $resolveInfo->getFieldSelection()]);
     }
 }
