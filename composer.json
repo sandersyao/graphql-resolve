@@ -38,7 +38,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Kuandd\\Laravel\\ServiceProvider"
+        "GraphQLResolve\\Laravel\\ServiceProvider"
       ]
     }
   },

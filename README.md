@@ -23,6 +23,6 @@ Laravel 框架结合使用的测试用例： tests/Laravel/RequestTest.php
 ## 需要要解决的问题
 
 1. 对字段的错误输出进行控制
-1. 尝试应用 Laravel 的 Gate 和 Policy 授权校验方式
+1. Laravel 构建 Schema 用的命令
 
 本项目基于 webonyx/graphql-php 开发

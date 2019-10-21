@@ -22,11 +22,14 @@ trait SelectTransform
      */
     public function scopeSelectTransform(Builder $query, array $transformRules, array $fields): Builder
     {
-        $selections = collect($transformRules)->filter(function ($value, $key) use ($fields) {
-            return  in_array($key, $fields);
-        })->transform(function ($value) {
-            return value($value);
-        })->toArray();
+        $selections = collect($transformRules)
+            ->filter(function ($value, $key) use ($fields) {
+                return  in_array($key, $fields);
+            })
+            ->transform(function ($value) {
+                return value($value);
+            })
+            ->toArray();
 
         return  $query->addSelect($selections);
     }

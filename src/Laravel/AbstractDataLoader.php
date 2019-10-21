@@ -4,18 +4,30 @@
 namespace GraphQLResolve\Laravel;
 
 
+use GraphQL\Executor\Promise\Promise;
 use Illuminate\Support\Collection;
 use Overblog\DataLoader\Option;
 use GraphQLResolve\AbstractDataLoader as Loader;
 
+/**
+ * Class AbstractDataLoader
+ * @package GraphQLResolve\Laravel
+ */
 abstract class AbstractDataLoader extends Loader
 {
+    /**
+     * 执行并获取数据
+     *
+     * @param iterable $keys 查询列表 [key,fields]
+     * @return Promise|mixed 查询结果
+     */
     public function invoke($keys)
     {
         $groupByFields  = collect($keys)->groupBy(function ($item) {
             return  serialize($item[1]);
         });
         $mapData        = [];
+
         foreach ($groupByFields as $fieldKey => $listKeys) {
 
             $collectionKeys     = collect($listKeys);
@@ -26,6 +38,7 @@ abstract class AbstractDataLoader extends Loader
                 }, [])),
             ]);
         }
+
         $result = collect($keys)->map(function ($key) use ($mapData) {
 
             list($id, $fields)  = $key;
