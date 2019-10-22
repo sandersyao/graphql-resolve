@@ -2,12 +2,13 @@
 
 namespace GraphQLResolve\Tests\Laravel\Models;
 
+use GraphQLResolve\Laravel\SelectTransform;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sku extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, SelectTransform;
 
     /**
      * 是否上架

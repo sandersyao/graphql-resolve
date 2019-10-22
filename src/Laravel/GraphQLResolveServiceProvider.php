@@ -10,19 +10,34 @@ use GraphQLResolve\LoaderRegistry;
 use GraphQLResolve\TypeRegistry;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class GraphQLResolveServiceProvider
+ *
+ * @package GraphQLResolve\Laravel
+ */
 class GraphQLResolveServiceProvider extends ServiceProvider
 {
-
+    /**
+     * vendor:publish 安装
+     */
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/config.php' => $this->app->make('path.config') . DIRECTORY_SEPARATOR .
-                'graphqlresolve.php',
+            __DIR__ . '/config/config.php' => config_path('graphql.php')
         ], 'config');
+        $this->loadRoutesFrom(__DIR__ . '/routes/graphql.php');
     }
 
+    /**
+     * 注册
+     */
     public function register()
     {
+        $this->app->bind(ContextInterface::class, function () {
+            $class  = config('graphql.contextClass');
+            return  new $class;
+        });
+
         $this->app->singleton(Schema::class, function () {
 
             TypeRegistry::load(config('graphql.types'));

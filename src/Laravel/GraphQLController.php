@@ -1,30 +1,40 @@
 <?php
 
 
-namespace GraphQLResolve\Tests\Laravel\Http;
+namespace GraphQLResolve\Laravel;
 
 
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
-use GraphQLResolve\AbstractDataLoader;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Class GraphQLController
+ *
+ * @package GraphQLResolve\Laravel
+ */
 class GraphQLController extends Controller
 {
-    public function resolve(Request $request, Schema $schema)
+    /**
+     * 解析
+     *
+     * @param Request $request 请求
+     * @param Schema $schema Schema
+     * @param ContextInterface $context 上下文
+     * @return mixed[] 响应结果
+     */
+    public function resolve(Request $request, Schema $schema, ContextInterface $context)
     {
         $operationName  = $request->input('operationName');
         $queryString    = $request->input('query');
         $variables      = $request->input('variables');
-        $root           = [];
-        $context        = null;
         $promise        = GraphQL::promiseToExecute(
             AbstractDataLoader::promiseDefault(),
             $schema,
             $queryString,
-            $root,
-            $context,
+            $context->getRoot($request, $schema),
+            $context->getContext($request, $schema),
             $variables,
             $operationName
         );

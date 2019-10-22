@@ -10,8 +10,8 @@ use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
 use GraphQLResolve\AbstractDataLoader;
 use GraphQLResolve\DirectiveRegistry;
+use GraphQLResolve\Laravel\ContextDefault;
 use GraphQLResolve\LoaderRegistry;
-use GraphQLResolve\Tests\Laravel\Http\GraphQLController;
 use GraphQLResolve\Tests\Laravel\Models\Order;
 use GraphQLResolve\Tests\Laravel\Models\Sku;
 use GraphQLResolve\Tests\Laravel\Models\Spu;
@@ -24,6 +24,7 @@ use Orchestra\Testbench\TestCase;
 use GraphQLResolve\Laravel\GraphQLResolveServiceProvider;
 use GraphQLResolve\Tests\Laravel\DataLoader\OrderDataLoader;
 use GraphQLResolve\Tests\Laravel\DataLoader\User as UserDataLoader;
+use GraphQLResolve\Tests\Laravel\DataLoader\Sku as SkuDataLoader;
 
 class RequestTest extends TestCase
 {
@@ -58,7 +59,6 @@ class RequestTest extends TestCase
             'database'  => ':memory:',
             'prefix'    => '',
         ]);
-        $app['router']->post('graphql', GraphQLController::class . '@resolve');
         $app['config']->set('graphql.types', [
             Types\User::class,
             Types\Sku::class,
@@ -70,8 +70,12 @@ class RequestTest extends TestCase
         $app['config']->set('graphql.loaders', [
             OrderDataLoader::class,
             UserDataLoader::class,
+            SkuDataLoader::class,
         ]);
         $app['config']->set('graphql.debug', Debug::INCLUDE_TRACE|Debug::INCLUDE_DEBUG_MESSAGE);
+        $app['config']->set('graphql.contextClass', ContextDefault::class);
+        $app['config']->set('app.debug', true);
+        $app['config']->set('app.env', 'testing');
     }
 
     /**
@@ -128,6 +132,7 @@ GQL;
             'query'         => $queryString,
             'variables'     => null,
         ]);
+        $response->dump();
         $response->assertStatus(200)
             ->assertSee('Hello World');
     }
@@ -143,6 +148,15 @@ hello
 first:order(id:$first){
   id
   sn
+  orderGoods {
+    sku {
+      sn
+      name
+      tagPrice
+    }
+    tagPrice
+    quantity
+  }
 }
 second:order(id:$second){
   id
