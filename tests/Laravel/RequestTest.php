@@ -53,6 +53,7 @@ class RequestTest extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set('name', 'GraphQL Resolve');
         $app['config']->set('database.default', self::DATABASE);
         $app['config']->set('database.connections.' . self::DATABASE, [
             'driver'    => 'sqlite',
@@ -173,6 +174,7 @@ Third:order(id:3){
     name
   }
 }
+spuSn(id:1)
 }
 GQL;
         $response       = $this->postJson('/graphql', [
